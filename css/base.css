@@ -78,6 +78,7 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+[hidden] { display: none !important; }
 img, svg, canvas, video { display: block; max-width: 100%; }
 a { color: inherit; text-decoration: none; }
 button, input, select, textarea { font: inherit; color: inherit; }
@@ -190,12 +191,12 @@ h1, h2, h3, h4, h5 {
 }
 
 .h-display {
-  font-size: clamp(42px, 6.6vw, 88px);
+  font-size: clamp(42px, 6.4vw, 84px);
   font-weight: 800;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.028em;
   line-height: 0.98;
 }
-.h-section { font-size: clamp(32px, 4.6vw, 58px); letter-spacing: -0.035em; }
+.h-section { font-size: clamp(32px, 4.6vw, 58px); letter-spacing: -0.025em; }
 .h-card { font-size: clamp(20px, 2vw, 24px); letter-spacing: -0.02em; }
 
 .lead {
