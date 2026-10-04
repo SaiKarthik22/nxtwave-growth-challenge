@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Growth Command Center · BuildAI·60</title>
+  <meta name="description" content="Live growth dashboard for the 500-registration campaign: funnel, channels vs plan, A/B test, referral k-factor and recommended next actions.">
+  <meta name="theme-color" content="#05060b">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%238f7dff'/%3E%3Cstop offset='.6' stop-color='%232fe3f0'/%3E%3Cstop offset='1' stop-color='%23c3f75c'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Ctext x='32' y='42' font-family='Arial' font-weight='900' font-size='26' text-anchor='middle' fill='%2305060b'%3EAI%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body data-page="dashboard" data-bg="calm">
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <div class="bg-aurora" aria-hidden="true"><span></span><span></span><span></span></div>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-grain" aria-hidden="true"></div>
+
+  <div id="site-header"></div>
+
+  <main id="main" class="dash">
+    <section class="container dash-head">
+      <div>
+        <span class="eyebrow">Growth Command Center</span>
+        <h1>Campaign <span class="grad-text">Day <span id="day-now">7</span> of 7</span></h1>
+        <p class="muted">Idea → Build → Launch → <b>Measure → Learn → Scale</b>. Every number here comes from the tracking built into the landing page: UTM + referral attribution, funnel events and the A/B headline test.</p>
+      </div>
+      <div class="card dash-controls">
+        <div class="flex items-center justify-between wrap gap-12">
+          <div class="seg" role="group" aria-label="Data source">
+            <button type="button" aria-pressed="true" data-mode="demo">Simulation + live</button>
+            <button type="button" aria-pressed="false" data-mode="live">Live only</button>
+          </div>
+          <div class="dash-actions">
+            <button type="button" class="btn btn-ghost btn-sm" id="export">⬇ CSV</button>
+            <button type="button" class="btn btn-ghost btn-sm" id="reset" title="Clears registrations, champions and events stored in this browser">Reset my data</button>
+          </div>
+        </div>
+        <div class="scrub">
+          <button type="button" class="btn btn-outline btn-sm btn-icon" id="play" aria-label="Replay the 7-day campaign">▶</button>
+          <input type="range" min="1" max="7" step="1" value="7" id="day-range" aria-label="Campaign day">
+          <span class="day-label" id="day-label">Day 7</span>
+        </div>
+        <div class="data-status" id="data-status"></div>
+      </div>
+    </section>
+
+    <div class="container" id="live-empty"></div>
+
+    <section class="container kpis" id="kpis" aria-label="Key metrics"></section>
+
+    <section class="container dash-row r-2-1">
+      <div class="card panel">
+        <div class="panel-head">
+          <div><h2>Daily registrations vs goal pace</h2><p class="muted small">Bars = new per day (left axis) · line = running total (right axis)</p></div>
+          <div class="legend"><span><i class="bar"></i>Daily</span><span><i class="cum"></i>Total</span><span><i class="pace"></i>Pace to 500</span></div>
+        </div>
+        <div class="chart" id="chart-daily"></div>
+      </div>
+      <div class="card panel goal-panel">
+        <div><h2>Goal tracker</h2><p class="muted small">500 final-year registrations in 7 days · ₹2,000</p></div>
+        <div class="ring-box" id="ring"></div>
+        <div class="goal-facts" id="goal-facts"></div>
+      </div>
+    </section>
+
+    <section class="container dash-row r-3-2">
+      <div class="card panel">
+        <div class="panel-head"><div><h2>Channel performance vs plan</h2><p class="muted small" id="plan-note">Plan pro-rated to the selected day (see Growth Plan, slide 3)</p></div></div>
+        <div class="table-wrap"><table class="table" id="channel-table"></table></div>
+      </div>
+      <div class="card panel">
+        <div class="panel-head"><div><h2>Where registrations came from</h2><p class="muted small">Share of registrations by channel</p></div></div>
+        <div id="chart-mix"></div>
+      </div>
+    </section>
+
+    <section class="container dash-row r-1-1">
+      <div class="card panel">
+        <div class="panel-head"><div><h2>Funnel</h2><p class="muted small">Where students drop off, from first visit to bringing a friend</p></div></div>
+        <div id="chart-funnel"></div>
+      </div>
+      <div class="card panel">
+        <div class="panel-head"><div><h2>A/B test · hero headline</h2><p class="muted small">50/50 split, sticky per visitor · two-proportion z-test</p></div></div>
+        <div id="ab"></div>
+      </div>
+    </section>
+
+    <section class="container dash-row r-1-1-1">
+      <div class="card panel"><div class="panel-head"><h2>🏫 Top colleges</h2><a class="small c-cyan" href="referral.html#leaderboard">All →</a></div><div id="top-colleges"></div></div>
+      <div class="card panel"><div class="panel-head"><h2>🎖️ Top Campus Champions</h2><a class="small c-cyan" href="referral.html#leaderboard">All →</a></div><div id="top-champs"></div></div>
+      <div class="card panel"><div class="panel-head"><h2>🏆 Top referrers</h2><a class="small c-cyan" href="referral.html#leaderboard">All →</a></div><div id="top-refs"></div></div>
+    </section>
+
+    <section class="container dash-row">
+      <div class="card panel card-glow is-lit">
+        <div class="panel-head"><div><h2>🧠 What the data says → what we do next</h2><p class="muted small">Rule-based insights recalculated for the selected day. This is the daily stand-up agenda.</p></div></div>
+        <div class="insights" id="insights"></div>
+      </div>
+    </section>
+
+    <section class="container dash-row">
+      <div class="card panel">
+        <div class="panel-head"><div><h2>Latest registrations</h2><p class="muted small">Names are shortened. Phone numbers and emails never leave the backend.</p></div></div>
+        <div class="table-wrap"><table class="table recent-table" id="recent"></table></div>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="js/config.js"></script>
+  <script src="js/seed.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/background.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>
