@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Build Your First AI Project in 60 Minutes · Free Live Workshop</title>
   <meta name="description" content="Free live workshop for final-year engineering students. Walk in with zero AI experience, walk out with a deployed AI project and a GitHub link for your resume.">
-  <meta name="theme-color" content="#05060b">
+  <meta name="theme-color" content="#f6f5fb">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Build Your First AI Project in 60 Minutes · Free Live Workshop">
   <meta property="og:description" content="Zero AI experience → a live AI project on your resume in 60 minutes. Free, live, Sunday 6 PM IST.">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%238f7dff'/%3E%3Cstop offset='.6' stop-color='%232fe3f0'/%3E%3Cstop offset='1' stop-color='%23c3f75c'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Ctext x='32' y='42' font-family='Arial' font-weight='900' font-size='26' text-anchor='middle' fill='%2305060b'%3EAI%3C/text%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%233d3bd9'/%3E%3Cstop offset='1' stop-color='%23ff6b4a'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='18' fill='url(%23g)'/%3E%3Ctext x='32' y='41' font-family='Arial' font-weight='900' font-size='25' text-anchor='middle' fill='%23ffffff'%3EAI%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/animations.css">
@@ -32,27 +32,27 @@
       <div class="container hero-grid">
         <div class="hero-copy">
           <div class="hero-pills" data-reveal>
-            <span class="pill pill-live">Free live workshop</span>
+            <span class="pill pill-live">Live on Zoom · ₹0</span>
             <span class="pill" id="hero-date">Sunday · 6:00 PM IST</span>
           </div>
-          <p class="hero-official mono" id="hero-official" hidden>WORKSHOP · Build Your First AI Project in 60 Minutes</p>
+          <p class="hero-official mono" id="hero-official" hidden>NxtWave free workshop · Build Your First AI Project in 60 Minutes</p>
           <h1 class="h-display split" id="hero-title"
-              data-b="Leave with a <span class='grad-text'>live AI project</span> on your resume.">Build Your First <span class="grad-text">AI Project</span> in 60&nbsp;Minutes.</h1>
+              data-b="Ship your <span class='grad-text'>first AI app</span> before placement season.">Build Your First <span class="grad-text">AI Project</span> in 60&nbsp;Minutes.</h1>
           <p class="lead hero-sub" data-reveal style="--d:250">
-            A free, hands-on live workshop for <strong>final-year engineers</strong>. Walk in with zero AI experience.
-            Walk out with a <strong>deployed AI app</strong>, a <strong>GitHub link</strong> and a resume bullet, right before placement season peaks.
+            One Sunday evening hour for <strong>final-year engineering students</strong>, no AI background required.
+            You type along with an instructor, put a <strong>working AI app</strong> on a public link and push the code to <strong>GitHub</strong>, so your resume has something real on it when drives open.
           </p>
           <div class="hero-ctas" data-reveal style="--d:350">
             <a href="#register" class="btn btn-primary btn-lg magnetic" data-cta="hero">
-              Reserve my free seat
+              Book my free seat
               <svg class="arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </a>
-            <a href="#projects" class="btn btn-ghost btn-lg">See what you'll build</a>
+            <a href="#projects" class="btn btn-ghost btn-lg">Preview the apps</a>
           </div>
           <div class="hero-proof" data-reveal style="--d:450">
             <div class="avatar-stack" id="hero-avatars" aria-hidden="true"></div>
             <div class="proof-text">
-              <div class="proof-line"><strong id="hero-count">0</strong> final-years registered <span class="muted">· goal 500</span></div>
+              <div class="proof-line"><span class="dot-live" aria-hidden="true"></span><strong id="hero-count">0</strong> students signed up <span class="muted">· target 500</span></div>
               <div class="progress" aria-hidden="true"><i id="hero-progress"></i></div>
             </div>
           </div>
@@ -62,46 +62,46 @@
           <div class="code-window" id="code-window">
             <div class="code-bar">
               <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-              <span class="code-title" id="code-file">resume_roaster.py</span>
-              <span class="code-tag badge badge-lime">● Live build</span>
+              <span class="code-title" id="code-file">jd_decoder.py</span>
+              <span class="code-tag badge badge-coral"><i class="tag-dot" aria-hidden="true"></i>Coding now</span>
             </div>
-            <pre class="code-body" id="code-body" aria-label="Animated demo: writing a small AI app in Python"></pre>
+            <pre class="code-body" id="code-body" aria-label="Demo: three small Python AI apps being typed, run and published one after another"></pre>
             <div class="code-term" id="code-term" aria-hidden="true"></div>
             <div class="app-preview" id="app-preview" aria-hidden="true"></div>
           </div>
-          <div class="float-card fc-1 float"><span>🎓</span><div><b>Certificate</b><small>on completion</small></div></div>
-          <div class="float-card fc-2 float-x"><span>🗣️</span><div><b>English + Telugu</b><small>doubt support</small></div></div>
-          <div class="float-card fc-3 float-slow"><span>⚡</span><div><b>Zero AI experience</b><small>needed</small></div></div>
+          <div class="float-card fc-1 float"><span>📜</span><div><b>Completion certificate</b><small>sent to your email</small></div></div>
+          <div class="float-card fc-2 float-x"><span>💬</span><div><b>Ask doubts in Telugu</b><small>or in English</small></div></div>
+          <div class="float-card fc-3 float-slow"><span>🌱</span><div><b>New to AI?</b><small>You're who it's for</small></div></div>
         </div>
       </div>
 
       <div class="container">
         <div class="countdown-bar card" data-reveal style="--d:150">
           <div class="cd-label">
-            <span class="eyebrow">Goes live in</span>
+            <span class="eyebrow">Doors open in</span>
             <span class="muted small" id="cd-date">Sunday, 6:00 PM IST</span>
           </div>
-          <div class="countdown" id="countdown" role="timer" aria-label="Time until the workshop starts">
+          <div class="countdown" id="countdown" role="timer" aria-label="Countdown to the start of the session">
             <div class="cd-unit"><span class="cd-num" data-unit="d">00</span><span class="cd-lbl">days</span></div>
             <span class="cd-sep">:</span>
-            <div class="cd-unit"><span class="cd-num" data-unit="h">00</span><span class="cd-lbl">hours</span></div>
+            <div class="cd-unit"><span class="cd-num" data-unit="h">00</span><span class="cd-lbl">hrs</span></div>
             <span class="cd-sep">:</span>
-            <div class="cd-unit"><span class="cd-num" data-unit="m">00</span><span class="cd-lbl">mins</span></div>
+            <div class="cd-unit"><span class="cd-num" data-unit="m">00</span><span class="cd-lbl">min</span></div>
             <span class="cd-sep">:</span>
-            <div class="cd-unit"><span class="cd-num" data-unit="s">00</span><span class="cd-lbl">secs</span></div>
+            <div class="cd-unit"><span class="cd-num" data-unit="s">00</span><span class="cd-lbl">sec</span></div>
           </div>
-          <a href="#register" class="btn btn-outline">Save my seat →</a>
+          <a href="#register" class="btn btn-outline">Get the joining link →</a>
         </div>
       </div>
     </section>
 
     <!-- ================= MARQUEE ================= -->
-    <section class="marquee-section" aria-label="Companies that hire NxtWave learners">
-      <p class="marquee-label mono">NxtWave learners are hired by 2,000+ companies, including</p>
+    <section class="marquee-section" aria-label="A few of the companies NxtWave learners work at">
+      <p class="marquee-label">NxtWave learners now work at 2,000+ companies. A few of them:</p>
       <div class="marquee">
         <div class="marquee-track">
-          <span>Amazon</span><i>✦</i><span>Accenture</span><i>✦</i><span>IBM</span><i>✦</i><span>Bank of America</span><i>✦</i><span>TCS</span><i>✦</i><span>Deloitte</span><i>✦</i>
-          <span>Amazon</span><i>✦</i><span>Accenture</span><i>✦</i><span>IBM</span><i>✦</i><span>Bank of America</span><i>✦</i><span>TCS</span><i>✦</i><span>Deloitte</span><i>✦</i>
+          <span>Deloitte</span><i>✦</i><span>TCS</span><i>✦</i><span>Amazon</span><i>✦</i><span>IBM</span><i>✦</i><span>Accenture</span><i>✦</i><span>Bank of America</span><i>✦</i>
+          <span>Deloitte</span><i>✦</i><span>TCS</span><i>✦</i><span>Amazon</span><i>✦</i><span>IBM</span><i>✦</i><span>Accenture</span><i>✦</i><span>Bank of America</span><i>✦</i>
         </div>
       </div>
     </section>
@@ -110,25 +110,25 @@
     <section class="section" id="why">
       <div class="container">
         <div class="section-head center">
-          <span class="eyebrow" data-reveal>Why this, why now</span>
-          <h2 class="h-section split">Placement season doesn't care about your <span class="grad-text">mini-project.</span></h2>
-          <p class="lead" data-reveal style="--d:200">Recruiters ask the one question that sinks most freshers: <em>"Have you built anything?"</em> In 60 minutes you'll have a real answer, and a link to prove it.</p>
+          <span class="eyebrow" data-reveal>The placement problem</span>
+          <h2 class="h-section split">Every interviewer asks what you've built. <span class="grad-text">Have a link ready.</span></h2>
+          <p class="lead" data-reveal style="--d:200">Most final-year resumes list the same courses and the same lab record. One AI app that anyone can open gives you something specific to talk through in both the technical and HR rounds.</p>
         </div>
         <div class="grid grid-3">
           <article class="card card-glow spotlight card-hover" data-reveal style="--d:0">
-            <div class="icon-tile">⏳</div>
-            <h3 class="h-card mt-24">Drives are weeks away</h3>
-            <p class="muted mt-8">Final-year resumes are being shortlisted right now. A live project is the fastest upgrade you can make this month.</p>
+            <div class="icon-tile amber">📆</div>
+            <h3 class="h-card mt-24">The drive calendar is filling up</h3>
+            <p class="muted mt-8">Companies are already booking campus slots for the 2027 batch. Build this weekend and the project is on your resume before the next shortlist goes out.</p>
           </article>
           <article class="card card-glow spotlight card-hover" data-reveal style="--d:120">
             <div class="icon-tile">🤖</div>
-            <h3 class="h-card mt-24">AI is the new keyword</h3>
-            <p class="muted mt-8">"I built and deployed an AI app" beats "I watched a course" in every interview, for every branch.</p>
+            <h3 class="h-card mt-24">Every branch gets the AI question</h3>
+            <p class="muted mt-8">CSE, ECE or Mech, panels now ask what you know about AI tools. Walking them through an app you shipped is an easier answer than reciting definitions.</p>
           </article>
           <article class="card card-glow spotlight card-hover" data-reveal style="--d:240">
-            <div class="icon-tile">🔗</div>
-            <h3 class="h-card mt-24">Proof beats promises</h3>
-            <p class="muted mt-8">You leave with a public app link, a GitHub repo and a resume bullet written for you. Recruiters can click it.</p>
+            <div class="icon-tile teal">🔗</div>
+            <h3 class="h-card mt-24">Something they can tap on</h3>
+            <p class="muted mt-8">Your app gets a public URL and a GitHub repo, plus a resume line we help you word. An interviewer can open both on their phone in the middle of the call.</p>
           </article>
         </div>
       </div>
@@ -138,40 +138,40 @@
     <section class="section" id="projects">
       <div class="container">
         <div class="section-head">
-          <span class="eyebrow" data-reveal>What you'll build</span>
-          <h2 class="h-section split">Pick one. <span class="grad-text">Ship it live</span> in 60 minutes.</h2>
-          <p class="lead" data-reveal style="--d:200">Each project uses Python, a free LLM API and Gradio. Everyone deploys with a public link before the session ends, with mentors unblocking you live.</p>
+          <span class="eyebrow" data-reveal>Choose your build</span>
+          <h2 class="h-section split">Three small apps. <span class="grad-text">Yours goes live</span> within the hour.</h2>
+          <p class="lead" data-reveal style="--d:200">Each is about a dozen lines of Python that call a free LLM API, with Gradio turning them into a web page. Pick the one you would actually use. Mentors stay in the chat until yours is online.</p>
         </div>
         <div class="grid grid-3 projects">
           <article class="card project-card card-glow" data-tilt data-reveal style="--d:0">
-            <div class="project-top"><span class="project-emoji">🔥</span><span class="badge badge-amber">Most picked</span></div>
-            <h3 class="h-card">Resume Roaster</h3>
-            <p class="muted">Paste your resume, get brutally honest recruiter-style feedback and 3 concrete fixes.</p>
+            <div class="project-top"><span class="project-emoji">🧾</span><span class="badge badge-amber">For drive season</span></div>
+            <h3 class="h-card">JD Decoder</h3>
+            <p class="muted">Paste the job post from a campus drive along with your skills. It lists what the company wants, where you fall short and a 7-day plan to catch up.</p>
             <div class="mini-app">
-              <div class="mini-in">Final-year ECE · Python, C · 1 mini project…</div>
-              <div class="mini-out">"Mini project" isn't a project. <b>Fix #1:</b> ship this app and link it.</div>
+              <div class="mini-in">TCS JD: Java, SQL · Me: Python, C</div>
+              <div class="mini-out"><b>Match: 55%.</b> Gaps: SQL joins, Java OOP. <b>Day 1:</b> 15 join queries.</div>
             </div>
-            <div class="tags"><span>Python</span><span>LLM API</span><span>Gradio</span></div>
+            <div class="tags"><span>Python</span><span>Two inputs</span><span>Gradio</span></div>
           </article>
           <article class="card project-card card-glow" data-tilt data-reveal style="--d:120">
-            <div class="project-top"><span class="project-emoji">🎤</span><span class="badge badge-cyan">Placement prep</span></div>
-            <h3 class="h-card">Interview Coach</h3>
-            <p class="muted">Answer a placement question and get a score out of 10, plus a stronger rewritten answer.</p>
+            <div class="project-top"><span class="project-emoji">🧪</span><span class="badge badge-teal">For lab week</span></div>
+            <h3 class="h-card">Viva Prep</h3>
+            <p class="muted">Enter a subject and an experiment name. You get the five questions an examiner is most likely to ask, each with a one-line answer.</p>
             <div class="mini-app">
-              <div class="mini-in">"Tell me about yourself"…</div>
-              <div class="mini-out"><b>6/10.</b> Lead with what you built, not your hometown. Try: "I'm an ECE student who…"</div>
+              <div class="mini-in">DLD lab · Full adder with NAND</div>
+              <div class="mini-out"><b>Q1.</b> How many NAND gates does a full adder need? <b>A:</b> Nine.</div>
             </div>
-            <div class="tags"><span>Prompting</span><span>Multi-input</span><span>Gradio</span></div>
+            <div class="tags"><span>f-strings</span><span>Prompt design</span><span>Deploy</span></div>
           </article>
           <article class="card project-card card-glow" data-tilt data-reveal style="--d:240">
-            <div class="project-top"><span class="project-emoji">📚</span><span class="badge badge-lime">Exam hack</span></div>
-            <h3 class="h-card">Notes → Quiz Buddy</h3>
-            <p class="muted">Turn any lecture notes into 5 MCQs with answers in seconds. Share it with your whole class.</p>
+            <div class="project-top"><span class="project-emoji">🐞</span><span class="badge badge-coral">For coding rounds</span></div>
+            <h3 class="h-card">Error Explainer</h3>
+            <p class="muted">Paste an error message that makes no sense. It explains the cause in plain English or Telugu and shows the corrected line.</p>
             <div class="mini-app">
-              <div class="mini-in">Unit 3 · Operating Systems · Deadlocks…</div>
-              <div class="mini-out"><b>Q1.</b> Which condition is NOT required for deadlock? (a) Mutual exclusion…</div>
+              <div class="mini-in">IndexError: list index out of range</div>
+              <div class="mini-out"><b>Cause:</b> Python counts from 0, so marks[5] doesn't exist. <b>Fix:</b> range(len(marks))</div>
             </div>
-            <div class="tags"><span>Python</span><span>Structured output</span><span>Deploy</span></div>
+            <div class="tags"><span>Python</span><span>Radio input</span><span>Gradio</span></div>
           </article>
         </div>
       </div>
@@ -181,33 +181,41 @@
     <section class="section" id="agenda">
       <div class="container">
         <div class="section-head center">
-          <span class="eyebrow" data-reveal>The 60 minutes</span>
-          <h2 class="h-section split">Minute by minute. <span class="grad-text">No fluff.</span></h2>
+          <span class="eyebrow" data-reveal>The 60-minute plan</span>
+          <h2 class="h-section split">Four blocks. <span class="grad-text">One working app.</span></h2>
         </div>
         <ol class="timeline" id="timeline">
           <li class="tl-step" data-reveal style="--d:0">
             <span class="tl-time mono">00–10</span>
             <span class="tl-dot"></span>
-            <h3>AI in plain words</h3>
-            <p class="muted">How LLMs work, what an API is, and the 3-line helper you'll use.</p>
+            <div class="tl-body">
+              <h3>How an LLM replies</h3>
+              <p class="muted">What the model does with your text, what an API call looks like and the tiny helper file that does the talking.</p>
+            </div>
           </li>
           <li class="tl-step" data-reveal style="--d:120">
             <span class="tl-time mono">10–25</span>
             <span class="tl-dot"></span>
-            <h3>Prompt like an engineer</h3>
-            <p class="muted">System prompts, examples and output formats, all tested live together.</p>
+            <div class="tl-body">
+              <h3>Prompts that behave</h3>
+              <p class="muted">Give the model a role, show it one example and fix the reply format. You try every change and see the output shift.</p>
+            </div>
           </li>
           <li class="tl-step" data-reveal style="--d:240">
             <span class="tl-time mono">25–50</span>
             <span class="tl-dot"></span>
-            <h3>Build your project</h3>
-            <p class="muted">Code along with the instructor. Mentors unblock you in chat, in English and Telugu.</p>
+            <div class="tl-body">
+              <h3>Code your app</h3>
+              <p class="muted">Type along with the instructor. If your screen shows an error, a mentor in the chat sorts it out in Telugu or English.</p>
+            </div>
           </li>
           <li class="tl-step" data-reveal style="--d:360">
             <span class="tl-time mono">50–60</span>
             <span class="tl-dot"></span>
-            <h3>Deploy + share</h3>
-            <p class="muted">Public link, push to GitHub, copy your resume bullet, collect your certificate.</p>
+            <div class="tl-body">
+              <h3>Go public</h3>
+              <p class="muted">Get your share link, push to GitHub, copy your resume line and submit the link for your certificate.</p>
+            </div>
           </li>
         </ol>
       </div>
@@ -216,21 +224,21 @@
     <!-- ================= FIT ================= -->
     <section class="section-tight">
       <div class="container grid grid-2">
-        <div class="card" data-reveal="left">
-          <h3 class="h-card">✅ This is for you if…</h3>
+        <div class="card fit-card fit-yes" data-reveal="left">
+          <div class="fit-head"><span class="icon-tile teal" aria-hidden="true">✅</span><h3 class="h-card">Sign up if</h3></div>
           <ul class="list-check mt-24">
-            <li>You're in <strong>final year (2027 batch)</strong>, in any engineering branch</li>
-            <li>You know basic programming in any language, or can follow along</li>
-            <li>You have zero deployed projects and placements are coming</li>
-            <li>You have a laptop and internet for 60 minutes</li>
+            <li>You pass out in <strong>2027</strong>, from any engineering branch</li>
+            <li>You can read simple code in some language, even if you haven't written much</li>
+            <li>The projects section of your resume is still thin</li>
+            <li>You can spend one hour on a laptop with working internet</li>
           </ul>
         </div>
-        <div class="card" data-reveal="right">
-          <h3 class="h-card">🙅 Skip it if…</h3>
+        <div class="card card-soft fit-card fit-no" data-reveal="right">
+          <div class="fit-head"><span class="icon-tile rose" aria-hidden="true">🙅</span><h3 class="h-card">Give it a miss if</h3></div>
           <ul class="list-check list-cross mt-24">
-            <li>You've already shipped several AI apps</li>
-            <li>You want a 3-month course. This is one focused hour</li>
-            <li>You can't join live. Building with mentors is the whole point</li>
+            <li>You already have a few AI apps online</li>
+            <li>You want weekly classes for months. We meet once, for an hour</li>
+            <li>You only plan to watch the recording. Mentor help happens live</li>
           </ul>
         </div>
       </div>
@@ -240,83 +248,85 @@
     <section class="section" id="register">
       <div class="container register-grid">
         <div class="register-copy">
-          <span class="eyebrow" data-reveal>Reserve your seat</span>
-          <h2 class="h-section split">Free. 60 minutes. <span class="grad-text">One live project.</span></h2>
+          <span class="eyebrow" data-reveal>Registration</span>
+          <h2 class="h-section split">Sign up today. <span class="grad-text">Build on Sunday.</span></h2>
           <ul class="list-check mt-32" data-reveal style="--d:150">
-            <li>A deployed AI app with a public link</li>
-            <li>GitHub repo + a resume bullet written for you</li>
-            <li>Certificate of completion</li>
-            <li>Code templates + session recording</li>
-            <li>Doubt support in English + Telugu</li>
+            <li>Your own AI app, running on a public URL</li>
+            <li>The code on your GitHub, plus a resume line ready to paste</li>
+            <li>A certificate once you submit your app link</li>
+            <li>Starter templates and the full recording afterwards</li>
+            <li>Mentors who answer in English and Telugu</li>
           </ul>
           <div class="event-meta" data-reveal style="--d:250">
-            <div><span>📅</span><div><small>When</small><b id="meta-date">Sunday, 6:00 PM IST</b></div></div>
-            <div><span>💻</span><div><small>Where</small><b>Live on Zoom</b></div></div>
-            <div><span>⏱️</span><div><small>Duration</small><b>60 minutes</b></div></div>
-            <div><span>💸</span><div><small>Fee</small><b>₹0, free</b></div></div>
+            <div><span>📅</span><div><small>Date</small><b id="meta-date">Sunday, 6:00 PM IST</b></div></div>
+            <div><span>💻</span><div><small>Platform</small><b>Zoom, link on WhatsApp</b></div></div>
+            <div><span>⏱️</span><div><small>Length</small><b>One hour (60 min)</b></div></div>
+            <div><span>💸</span><div><small>Cost</small><b>Free, no card needed</b></div></div>
           </div>
         </div>
 
-        <div class="register-card card card-glow is-lit" id="register-card" data-reveal="zoom" style="--d:120">
-          <form id="reg-form" novalidate>
-            <div class="form-head">
-              <h3 class="h-card">Claim your free seat</h3>
-              <span class="badge badge-green">30 seconds</span>
-            </div>
-            <div class="ref-banner" id="ref-banner" hidden></div>
-            <div class="form-grid">
-              <div class="field full">
-                <label for="f-name">Full name</label>
-                <input class="input" id="f-name" name="name" autocomplete="name" placeholder="e.g. Ravi Kumar" required>
-                <span class="err">Please enter your name</span>
+        <div class="register-stage">
+          <div class="register-card card" id="register-card" data-reveal="zoom" style="--d:120">
+            <form id="reg-form" novalidate>
+              <div class="form-head">
+                <h3 class="h-card">Book your free seat</h3>
+                <span class="badge badge-green">6 quick fields</span>
               </div>
-              <div class="field">
-                <label for="f-phone">WhatsApp number</label>
-                <div class="input-prefix">
-                  <span>+91</span>
-                  <input class="input" id="f-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="98765 43210" maxlength="11" required>
+              <div class="ref-banner" id="ref-banner" hidden></div>
+              <div class="form-grid">
+                <div class="field full">
+                  <label for="f-name">Your name</label>
+                  <input class="input" id="f-name" name="name" autocomplete="name" placeholder="As it should read on the certificate" required>
+                  <span class="err">We need your name for the certificate</span>
                 </div>
-                <span class="err">Enter a valid 10-digit mobile number</span>
+                <div class="field">
+                  <label for="f-phone">Number on WhatsApp</label>
+                  <div class="input-prefix">
+                    <span>+91</span>
+                    <input class="input" id="f-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="98765 43210" maxlength="11" required>
+                  </div>
+                  <span class="err">Use a 10-digit Indian mobile number</span>
+                </div>
+                <div class="field">
+                  <label for="f-email">Email address</label>
+                  <input class="input" id="f-email" name="email" type="email" autocomplete="email" placeholder="name@gmail.com" required>
+                  <span class="err">That email looks incomplete</span>
+                </div>
+                <div class="field full">
+                  <label for="f-college">College</label>
+                  <input class="input" id="f-college" name="college" list="college-list" autocomplete="off" placeholder="Search, e.g. VR Siddhartha" required>
+                  <datalist id="college-list"></datalist>
+                  <span class="err">Which college are you from?</span>
+                </div>
+                <div class="field">
+                  <label for="f-branch">Branch</label>
+                  <select class="input" id="f-branch" name="branch" required>
+                    <option value="">Choose one</option>
+                  </select>
+                  <span class="err">Choose your branch</span>
+                </div>
+                <div class="field">
+                  <label for="f-year">Passing out in</label>
+                  <select class="input" id="f-year" name="gradYear" required>
+                    <option value="2027" selected>2027 · final year</option>
+                    <option value="2028">2028 · third year</option>
+                    <option value="2026">2026 or earlier</option>
+                  </select>
+                  <span class="err">Choose your passing-out year</span>
+                </div>
               </div>
-              <div class="field">
-                <label for="f-email">Email</label>
-                <input class="input" id="f-email" name="email" type="email" autocomplete="email" placeholder="you@college.edu" required>
-                <span class="err">Enter a valid email</span>
-              </div>
-              <div class="field full">
-                <label for="f-college">College</label>
-                <input class="input" id="f-college" name="college" list="college-list" autocomplete="off" placeholder="Start typing your college…" required>
-                <datalist id="college-list"></datalist>
-                <span class="err">Tell us your college</span>
-              </div>
-              <div class="field">
-                <label for="f-branch">Branch</label>
-                <select class="input" id="f-branch" name="branch" required>
-                  <option value="">Select branch</option>
-                </select>
-                <span class="err">Pick your branch</span>
-              </div>
-              <div class="field">
-                <label for="f-year">Graduating in</label>
-                <select class="input" id="f-year" name="gradYear" required>
-                  <option value="2027" selected>2027 (final year)</option>
-                  <option value="2028">2028 (3rd year)</option>
-                  <option value="2026">2026 / already graduated</option>
-                </select>
-                <span class="err">Pick your year</span>
-              </div>
-            </div>
-            <label class="consent">
-              <input type="checkbox" name="waOptIn" checked>
-              <span>Send me the joining link and 2 reminders on WhatsApp</span>
-            </label>
-            <button class="btn btn-primary btn-lg btn-block" type="submit" id="reg-submit">
-              Reserve my free seat
-              <svg class="arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <p class="tiny muted center mt-16">No spam, no payment. Just the joining link, 2 reminders and your certificate.</p>
-          </form>
-          <div id="reg-success" class="reg-success" hidden></div>
+              <label class="consent">
+                <input type="checkbox" name="waOptIn" checked>
+                <span>WhatsApp me the Zoom link and 2 reminders before we start</span>
+              </label>
+              <button class="btn btn-primary btn-lg btn-block" type="submit" id="reg-submit">
+                Book my free seat
+                <svg class="arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <p class="tiny muted center mt-16">Nothing to pay. We only send the link, two reminders and your certificate.</p>
+            </form>
+            <div id="reg-success" class="reg-success" hidden></div>
+          </div>
         </div>
       </div>
     </section>
@@ -325,9 +335,9 @@
     <section class="section" id="rewards">
       <div class="container">
         <div class="section-head center">
-          <span class="eyebrow" data-reveal>Bring your batch</span>
-          <h2 class="h-section split">Invite friends. <span class="grad-text">Unlock rewards.</span></h2>
-          <p class="lead" data-reveal style="--d:200">Everyone who registers gets a personal link. When friends join through it, you unlock rewards and climb the leaderboard.</p>
+          <span class="eyebrow" data-reveal>Invite your classmates</span>
+          <h2 class="h-section split">Your friends sign up. <span class="grad-text">You collect rewards.</span></h2>
+          <p class="lead" data-reveal style="--d:200">Once you register, you get a link with your own code. Every classmate who signs up through it adds one to your count, and the rewards below open at 1, 3 and 5 friends.</p>
         </div>
         <div class="grid grid-3" id="reward-tiers"></div>
         <div class="prize-row" data-reveal>
@@ -343,10 +353,10 @@
         <div class="card battle-card" data-reveal>
           <div class="battle-head">
             <div>
-              <span class="eyebrow">College Battle · live</span>
-              <h3 class="h-section battle-title">Which campus is the most <span class="grad-text">AI-ready?</span></h3>
+              <span class="eyebrow">College Battle · updating live</span>
+              <h3 class="h-section battle-title">Top colleges by sign-ups. <span class="grad-text">Where's yours?</span></h3>
             </div>
-            <a href="referral.html#leaderboard" class="btn btn-ghost">Full leaderboard →</a>
+            <a href="referral.html#leaderboard" class="btn btn-ghost">Open the leaderboard →</a>
           </div>
           <div class="battle-bars" id="battle-bars"></div>
         </div>
@@ -357,33 +367,41 @@
     <section class="section" id="faq">
       <div class="container-narrow">
         <div class="section-head center">
-          <span class="eyebrow" data-reveal>FAQ</span>
-          <h2 class="h-section split">Questions, <span class="grad-text">answered.</span></h2>
+          <span class="eyebrow" data-reveal>Before you sign up</span>
+          <h2 class="h-section split">What students <span class="grad-text">usually ask</span></h2>
         </div>
         <div class="accordion" data-reveal>
           <details>
-            <summary>Do I need to know AI or machine learning?<span class="plus">+</span></summary>
-            <div class="acc-body">No. If you can write a basic function in any language, you can follow along. We use a 3-line helper so you focus on building, not maths.</div>
+            <summary>I've never studied AI. Will I keep up?<span class="plus">+</span></summary>
+            <div class="acc-body">Yes. Basic programming in any language is enough. A three-line helper makes the AI call for you, so the hour goes into building your app and there's no maths to learn first.</div>
           </details>
           <details>
-            <summary>What do I need on the day?<span class="plus">+</span></summary>
-            <div class="acc-body">A laptop, Chrome and a stable internet connection. We send 10-minute setup steps on WhatsApp the day before, so you start building from minute one.</div>
+            <summary>What should I have ready on Sunday?<span class="plus">+</span></summary>
+            <div class="acc-body">A laptop with Chrome and steady internet. The day before, we WhatsApp you a setup guide that takes about 10 minutes, so nobody spends the session installing things.</div>
           </details>
           <details>
-            <summary>Is it really free?<span class="plus">+</span></summary>
-            <div class="acc-body">Yes. No payment, no card, no hidden upsell during the build. The workshop is free and the project is yours.</div>
+            <summary>Is there a fee or a catch?<span class="plus">+</span></summary>
+            <div class="acc-body">No fee and no card details. Nobody pitches a paid course while you're building, and the app and its code stay yours after the session.</div>
           </details>
           <details>
-            <summary>Can non-CSE branches join?<span class="plus">+</span></summary>
-            <div class="acc-body">Absolutely. ECE, EEE, Mech and Civil students build the same project. The skill is prompting and shipping, not your branch.</div>
+            <summary>I'm in ECE, EEE, Mech or Civil. Should I still come?<span class="plus">+</span></summary>
+            <div class="acc-body">Please do. The skills here are writing clear prompts and putting an app online, and they work the same in every branch. Everyone builds the same apps side by side.</div>
           </details>
           <details>
-            <summary>Will I get a certificate?<span class="plus">+</span></summary>
-            <div class="acc-body">Yes. Submit your deployed project link at the end of the session and your certificate is emailed to you.</div>
+            <summary>Can I ask my doubts in Telugu?<span class="plus">+</span></summary>
+            <div class="acc-body">Yes. Mentors in the chat reply in Telugu or English, whichever you write in.</div>
           </details>
           <details>
-            <summary>How do referral rewards work?<span class="plus">+</span></summary>
-            <div class="acc-body">After registering you get a personal link. Every friend who registers through it counts: 1 unlocks the Prompt Pack, 3 unlock the Starter Repo + certificate, 5 get your project reviewed live. Track it in the <a class="c-cyan" href="referral.html">Referral Hub</a>.</div>
+            <summary>How do I get the certificate?<span class="plus">+</span></summary>
+            <div class="acc-body">At the end of the session, submit the public link of your deployed app. Your certificate of completion then arrives by email.</div>
+          </details>
+          <details>
+            <summary>Is there a recording?<span class="plus">+</span></summary>
+            <div class="acc-body">Yes. Everyone registered gets the recording and the code templates afterwards. Mentor help in the chat only happens during the live hour, so join live if you can.</div>
+          </details>
+          <details>
+            <summary>What do I get for inviting friends?<span class="plus">+</span></summary>
+            <div class="acc-body">Signing up gives you a personal link. One friend through it unlocks the AI Prompt Pack, three unlock the Starter Repo + Early-Bird Certificate, and five get your app reviewed live by the instructor. Check your count any time in the <a class="c-indigo" href="referral.html">Referral Hub</a>.</div>
           </details>
         </div>
       </div>
@@ -393,9 +411,9 @@
     <section class="section">
       <div class="container">
         <div class="final-cta card card-glow is-lit" data-reveal="zoom">
-          <h2 class="h-section split">Your resume needs one live AI project. <span class="grad-text">Give it 60 minutes.</span></h2>
-          <p class="lead" data-reveal style="--d:200">Free · Live · <span id="final-date">Sunday 6 PM IST</span> · Certificate</p>
-          <a href="#register" class="btn btn-primary btn-lg magnetic" data-reveal style="--d:300">Reserve my free seat →</a>
+          <h2 class="h-section split">One hour this Sunday. <span class="grad-text">One app you can show.</span></h2>
+          <p class="lead" data-reveal style="--d:200">₹0 · <span id="final-date">Sunday 6 PM IST</span> · On Zoom · Certificate included</p>
+          <a href="#register" class="btn btn-primary btn-lg magnetic" data-reveal style="--d:300">Count me in →</a>
         </div>
       </div>
     </section>
@@ -404,8 +422,8 @@
   <div id="site-footer"></div>
 
   <div class="sticky-cta" id="sticky-cta" aria-hidden="true">
-    <div><b id="sticky-count">0</b> registered · <span class="c-lime">Free</span></div>
-    <a class="btn btn-primary btn-sm" href="#register" tabindex="-1">Reserve seat</a>
+    <div><span class="dot-live" aria-hidden="true"></span><b id="sticky-count">0</b> signed up · <span class="c-coral">₹0</span></div>
+    <a class="btn btn-primary btn-sm" href="#register" tabindex="-1">Book a seat</a>
   </div>
 
   <script src="js/config.js"></script>

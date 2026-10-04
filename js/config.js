@@ -33,22 +33,22 @@ window.CONFIG = {
   backendUrl: "",
 
   // Optional: your GitHub repo URL. It shows a "Source code" link in the footer.
-  repoUrl: "https://github.com/saikoushik22/nxtwave-growth-challenge",
+  repoUrl: "https://github.com/SaiKarthik22/nxtwave-growth-challenge",
 
   // Channel targets used by the Command Center's "vs plan" comparison (they add up to 570, a 14% buffer over 500).
   channels: {
-    whatsapp:  { label: "Campus Champions · WhatsApp groups", short: "Champions · WhatsApp", color: "#3ee6a0", plan: 300, conv: 0.21 },
-    referral:  { label: "Referral loop",                       short: "Referrals",            color: "#a99bff", plan: 120, conv: 0.31 },
-    email:     { label: "Placement cells & coding clubs",      short: "Placement cells",      color: "#2fe3f0", plan: 60,  conv: 0.24 },
-    instagram: { label: "Instagram (reel + ₹600 boost)",       short: "Instagram",            color: "#ff5d8f", plan: 60,  conv: 0.12 },
-    linkedin:  { label: "LinkedIn",                            short: "LinkedIn",             color: "#ffb547", plan: 30,  conv: 0.19 },
-    direct:    { label: "Direct / other",                      short: "Direct",               color: "#8b90ae", plan: 0,   conv: 0.15 },
+    whatsapp:  { label: "Campus Champions · WhatsApp groups", short: "Champions · WhatsApp", color: "#1f9d55", plan: 300, conv: 0.21 },
+    referral:  { label: "Referral loop",                       short: "Referrals",            color: "#3d3bd9", plan: 120, conv: 0.31 },
+    email:     { label: "Placement cells & coding clubs",      short: "Placement cells",      color: "#0b8a7e", plan: 60,  conv: 0.24 },
+    instagram: { label: "Instagram (reel + ₹600 boost)",       short: "Instagram",            color: "#cf3466", plan: 60,  conv: 0.12 },
+    linkedin:  { label: "LinkedIn",                            short: "LinkedIn",             color: "#2f7fd0", plan: 30,  conv: 0.19 },
+    direct:    { label: "Direct / other",                      short: "Direct",               color: "#9997b8", plan: 0,   conv: 0.15 },
   },
 
   rewards: [
-    { at: 1, icon: "🧠", title: "AI Prompt Pack", desc: "50 battle-tested prompts for projects, resumes and interviews." },
-    { at: 3, icon: "🚀", title: "Starter Repo + Early-Bird Certificate", desc: "A ready-to-deploy project template and an \"AI Builder · Early Access\" certificate." },
-    { at: 5, icon: "🎯", title: "Live Project Review", desc: "Your project gets reviewed live on screen by the instructor." },
+    { at: 1, icon: "🧠", title: "AI Prompt Pack", desc: "50 copy-paste prompts for debugging code, tightening your resume and practising interview answers." },
+    { at: 3, icon: "🚀", title: "Starter Repo + Early-Bird Certificate", desc: "A clean project template you can reuse for your next idea, plus an \"AI Builder · Early Access\" certificate." },
+    { at: 5, icon: "🎯", title: "Live Project Review", desc: "The instructor opens your app on the shared screen and tells you what to improve next." },
   ],
   topReferrerPrize: "Top 4 referrers win a ₹100 mobile recharge",
   championPrize: "Top 5 Campus Champions share a ₹1,000 Amazon voucher pool",

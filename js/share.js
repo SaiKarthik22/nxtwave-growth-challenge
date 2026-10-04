@@ -44,17 +44,18 @@ window.Share = (function () {
     var w = when();
     return {
       en:
-        "Hey! 👋 Free live workshop this " + w.day + " at " + w.time + ": *Build Your First AI Project in 60 Minutes* (NxtWave).\n" +
-        "You leave with a live AI app + GitHub link for your resume. No AI experience needed.\n" +
-        "I just registered. Grab your seat 👇\n" + link,
+        "Booked my seat for this " + w.day + ", " + w.time + " IST 💻\n" +
+        "*Build Your First AI Project in 60 Minutes* is a free live NxtWave workshop for final-year students.\n" +
+        "In one hour you build an AI app, put it online and get a GitHub link to add to your resume. You don't need to know AI already.\n" +
+        "Register through my link 👇\n" + link,
       te:
         "హాయ్ 👋 ఈ " + w.dayTe + " " + w.time + " కి ఫ్రీ లైవ్ వర్క్‌షాప్: *60 నిమిషాల్లో మీ మొదటి AI ప్రాజెక్ట్* (NxtWave).\n" +
         "చివర్లో మీ రెజ్యూమ్‌కి లైవ్ AI ప్రాజెక్ట్ లింక్ + GitHub రెడీ. AI ఎక్స్‌పీరియన్స్ అవసరం లేదు.\n" +
         "నేను రిజిస్టర్ అయ్యాను, మీరూ జాయిన్ అవ్వండి 👇\n" + link,
       hi:
-        "Bhai 👋 Is " + w.day + " " + w.time + " free live workshop hai: *Build Your First AI Project in 60 Minutes* (NxtWave).\n" +
-        "End mein resume ke liye live AI project + GitHub link milega. AI experience zaroori nahi.\n" +
-        "Maine register kar liya, tu bhi kar 👇\n" + link,
+        "Kaam ki cheez 🙌 Is " + w.day + " " + w.time + " IST pe NxtWave ka free live workshop hai: *Build Your First AI Project in 60 Minutes*.\n" +
+        "60 minute mein apna AI app banaoge, online deploy karoge, aur GitHub link resume mein add kar sakoge. AI pehle se nahi aata toh bhi chalega.\n" +
+        "Mere link se register karo, saath mein attend karenge 👇\n" + link,
     };
   }
 
@@ -67,11 +68,11 @@ window.Share = (function () {
     return [
       {
         day: "Day 2 · Intro",
-        tip: "Post in 3 class/department groups between 7 and 9 PM, when groups are most active.",
+        tip: "Send it between 7 and 9 PM to three groups: your section, your department and one club.",
         en:
-          "Guys 👋 NxtWave is running a FREE 60-min live workshop this " + w.day + " (" + w.time + ") where we actually build and deploy an AI project.\n" +
-          "Useful for placements: you get a live project link for your resume + a certificate.\n" +
-          "I'm the campus champion for " + college + ". Register here 👇\n" + link,
+          "Hello everyone 👋 Sharing something useful for placements.\n" +
+          "NxtWave is hosting a free live online workshop, *Build Your First AI Project in 60 Minutes*, this " + w.day + " at " + w.time + " IST. You build a small AI app, deploy it and get a certificate of completion, so you have a real project to talk about in interviews.\n" +
+          "No AI background needed, and doubts are answered in English and Telugu. I'm helping " + college + " sign up, so please register here 👇\n" + link,
         te:
           "ఫ్రెండ్స్ 👋 ఈ " + w.dayTe + " " + w.time + " కి NxtWave ఫ్రీ 60 నిమిషాల లైవ్ వర్క్‌షాప్. మనమే AI ప్రాజెక్ట్ బిల్డ్ చేసి డిప్లాయ్ చేస్తాం.\n" +
           "ప్లేస్‌మెంట్స్‌కి యూజ్‌ఫుల్: రెజ్యూమ్‌కి లైవ్ ప్రాజెక్ట్ లింక్ + సర్టిఫికెట్.\n" +
@@ -79,20 +80,21 @@ window.Share = (function () {
       },
       {
         day: "Day 5 · Social proof",
-        tip: "Screenshot the College Battle leaderboard and post it with this message.",
+        tip: "Attach a screenshot of the College Battle tab so the group can see where your campus stands.",
         en:
-          "Update 🔥 " + count + " students have already registered and " + college + " is " + rank + " in the College Battle.\n" +
-          "Let's take #1! If you haven't registered yet, it takes 30 seconds 👇\n" + link,
+          "Where we stand in the College Battle 📊 " + college + " is " + rank + " right now, and " + count + " students have already booked a seat.\n" +
+          "Every registration from our college adds to our total. If you haven't signed up yet, the form has only 6 fields 👇\n" + link,
         te:
           "అప్‌డేట్ 🔥 ఇప్పటికే " + count + " మంది రిజిస్టర్ అయ్యారు. College Battle లో " + college + " " + rank + " లో ఉంది.\n" +
           "మనం #1 అవ్వాలి! ఇంకా రిజిస్టర్ అవ్వకపోతే 30 సెకన్లు చాలు 👇\n" + link,
       },
       {
         day: "Day 7 · Last call",
-        tip: "Send at 10 AM and again 2 hours before the workshop. Pin it in the group.",
+        tip: "Post it at 10 AM, repost two hours before the start, and pin it both times.",
         en:
-          "Last call ⏰ Registrations close today. 60 minutes, free, and you walk out with a live AI project.\n" +
-          "Starts " + w.time + ". Register now 👇\n" + link,
+          "Today at " + w.time + " IST 🔔 Our free AI workshop goes live, and today is the last day to register.\n" +
+          "Bring a laptop with Chrome and one hour of your evening. You finish with an AI app online and a GitHub link for your resume.\n" +
+          "The joining link goes only to registered students, so sign up now 👇\n" + link,
         te:
           "లాస్ట్ కాల్ ⏰ ఈరోజే రిజిస్ట్రేషన్ క్లోజ్. 60 నిమిషాలు, ఫ్రీ, చివర్లో లైవ్ AI ప్రాజెక్ట్ మీదే.\n" +
           w.time + " కి స్టార్ట్. ఇప్పుడే రిజిస్టర్ అవ్వండి 👇\n" + link,

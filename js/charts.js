@@ -45,18 +45,18 @@ window.Charts = (function () {
     var maxBar = niceMax(Math.max.apply(null, o.bars.concat([1])) * 1.15);
     var maxCum = niceMax(Math.max.apply(null, [o.goal * 1.12].concat(o.cumulative, o.target)));
     var slot = iw / n;
-    var bw = Math.min(46, slot * 0.5);
+    var bw = Math.min(24, slot * 0.5);
     var x = function (i) { return pad.l + slot * (i + 0.5); };
     var yb = function (v) { return pad.t + ih - (v / maxBar) * ih; };
     var yc = function (v) { return pad.t + ih - (v / maxCum) * ih; };
     var from = o.animateFrom == null ? 0 : o.animateFrom;
     var s = [];
 
-    s.push('<svg viewBox="0 0 ' + W + " " + H + '" width="100%" height="' + H + '" role="img" aria-label="' + esc(o.aria || "Daily registrations chart") + '">');
+    s.push('<svg viewBox="0 0 ' + W + " " + H + '" width="100%" height="' + H + '" role="img" aria-label="' + esc(o.aria || "Sign-ups per day against the pace needed for the target") + '">');
     s.push('<defs>' +
-      '<linearGradient id="cbBar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a99bff"/><stop offset="1" stop-color="#5b4bd6" stop-opacity=".55"/></linearGradient>' +
-      '<linearGradient id="cbLine" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2fe3f0"/><stop offset="1" stop-color="#c3f75c"/></linearGradient>' +
-      '<linearGradient id="cbArea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2fe3f0" stop-opacity=".22"/><stop offset="1" stop-color="#2fe3f0" stop-opacity="0"/></linearGradient>' +
+      '<linearGradient id="cbBar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6f6cf2"/><stop offset="1" stop-color="#6f6cf2" stop-opacity=".55"/></linearGradient>' +
+      '<linearGradient id="cbLine" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#f26a45"/><stop offset="1" stop-color="#e5532f"/></linearGradient>' +
+      '<linearGradient id="cbArea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff6b4a" stop-opacity=".14"/><stop offset="1" stop-color="#ff6b4a" stop-opacity="0"/></linearGradient>' +
       "</defs>");
 
     // grid + axes
@@ -70,13 +70,18 @@ window.Charts = (function () {
     // goal line
     var gyy = yc(o.goal);
     s.push('<line x1="' + pad.l + '" x2="' + (W - pad.r) + '" y1="' + gyy + '" y2="' + gyy + '" class="goal-line"/>');
-    s.push('<text x="' + (pad.l + 6) + '" y="' + (gyy - 7) + '" class="goal-label">GOAL ' + o.goal + "</text>");
+    // narrow slots: drop the number so the label clears the Day 2 value (the right axis still reads 500)
+    s.push('<text x="' + (pad.l + 6) + '" y="' + (gyy - 7) + '" class="goal-label">GOAL' + (slot >= 56 ? " " + o.goal : "") + "</text>");
 
-    // bars
+    // bars: 4px rounded cap, square on the baseline
+    var base = pad.t + ih;
     o.bars.forEach(function (v, i) {
       if (v == null) return;
-      var h = Math.max(2, pad.t + ih - yb(v));
-      s.push('<rect class="bar' + (i >= from ? " grow" : "") + '" style="animation-delay:' + (i - from) * 70 + 'ms" x="' + (x(i) - bw / 2) + '" y="' + (pad.t + ih - h) + '" width="' + bw + '" height="' + h + '" rx="7" fill="url(#cbBar)"/>');
+      var h = Math.max(2, base - yb(v));
+      var bx = x(i) - bw / 2, top = base - h, rr = Math.min(4, h, bw / 2);
+      var d = "M" + bx + "," + base + "V" + (top + rr) + "Q" + bx + "," + top + " " + (bx + rr) + "," + top +
+        "H" + (bx + bw - rr) + "Q" + (bx + bw) + "," + top + " " + (bx + bw) + "," + (top + rr) + "V" + base + "Z";
+      s.push('<path class="bar' + (i >= from ? " grow" : "") + '" style="animation-delay:' + (i - from) * 70 + 'ms" d="' + d + '" fill="url(#cbBar)"/>');
       s.push('<text x="' + x(i) + '" y="' + (pad.t + ih - h - 7) + '" class="bar-val" text-anchor="middle">' + v + "</text>");
     });
 
@@ -91,6 +96,8 @@ window.Charts = (function () {
       var area = line + "L" + pts[pts.length - 1][0] + "," + (pad.t + ih) + "L" + pts[0][0] + "," + (pad.t + ih) + "Z";
       s.push('<path d="' + area + '" fill="url(#cbArea)" class="' + (from === 0 ? "fade-in" : "") + '"/>');
       s.push('<path d="' + line + '" class="cum-line' + (from === 0 ? " draw" : "") + '" pathLength="1"/>');
+      var lp = pts[pts.length - 1];
+      s.push('<circle cx="' + lp[0] + '" cy="' + lp[1] + '" r="11" class="cum-halo"/>');
       pts.forEach(function (p, i) {
         s.push('<circle cx="' + p[0] + '" cy="' + p[1] + '" r="' + (i === pts.length - 1 ? 5.5 : 3.5) + '" class="cum-dot' + (i === pts.length - 1 ? " last" : "") + '"/>');
       });
@@ -115,8 +122,8 @@ window.Charts = (function () {
       r.addEventListener("pointerenter", function () {
         var v = o.bars[i], c = o.cumulative[i];
         var html = "<b>Day " + (i + 1) + " · " + esc(o.labels[i]) + "</b>" +
-          (v == null ? '<span class="muted">Not reached yet</span>' :
-            "<span>" + v + " registrations</span><span>" + c + " total · pace " + Math.round(o.target[i]) + "</span>");
+          (v == null ? '<span class="muted">This day is still ahead</span><span><i class="k k-pace"></i>Should be at ' + Math.round(o.target[i]) + "</span>" :
+            '<span><i class="k k-bar"></i>' + v + ' new that day</span><span><i class="k k-cum"></i>' + c + ' so far</span><span><i class="k k-pace"></i>Should be at ' + Math.round(o.target[i]) + "</span>");
         var rect = r.getBoundingClientRect(), box = el.getBoundingClientRect();
         t.show(html, rect.left - box.left + rect.width / 2, (v == null ? yc(o.target[i]) : Math.min(yb(v), yc(c))) * (box.width / W));
       });
@@ -127,13 +134,13 @@ window.Charts = (function () {
   /* ---------- horizontal bars (HTML) ---------- */
   function hbars(el, items, o) {
     o = o || {};
-    if (!items.length) { el.innerHTML = '<div class="empty small">No data yet</div>'; return; }
+    if (!items.length) { el.innerHTML = '<div class="empty small">No one on the board yet</div>'; return; }
     var max = o.max || Math.max.apply(null, items.map(function (d) { return d.value; }).concat([1]));
     el.innerHTML = '<div class="hbars">' + items.map(function (d, i) {
       return '<div class="hb-row">' +
         '<div class="hb-top"><span class="hb-label">' + (d.html || esc(d.label)) + "</span>" +
         '<span class="hb-val">' + (o.format ? o.format(d.value, d) : UI.fmt(d.value)) + "</span></div>" +
-        '<div class="hb-track"><div class="hb-fill" style="--w:' + ((d.value / max) * 100).toFixed(1) + "%;--c:" + (d.color || "var(--violet)") + ";animation-delay:" + i * 60 + 'ms"></div></div>' +
+        '<div class="hb-track"><div class="hb-fill" style="--w:' + ((d.value / max) * 100).toFixed(1) + "%;--c:" + (d.color || "var(--indigo)") + ";animation-delay:" + i * 60 + 'ms"></div></div>' +
         (d.sub ? '<div class="hb-sub">' + d.sub + "</div>" : "") +
         "</div>";
     }).join("") + "</div>";
@@ -152,8 +159,8 @@ window.Charts = (function () {
     }).join("") : "";
     el.innerHTML =
       '<div class="donut-wrap">' +
-        '<svg viewBox="0 0 180 180" class="donut" role="img" aria-label="' + esc(o.aria || "Share by channel") + '">' +
-          '<circle r="' + R + '" cx="90" cy="90" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="' + SW + '"/>' +
+        '<svg viewBox="0 0 180 180" class="donut" role="img" aria-label="' + esc(o.aria || "Share of the total by channel") + '">' +
+          '<circle r="' + R + '" cx="90" cy="90" fill="none" stroke="rgba(22,20,58,.06)" stroke-width="' + SW + '"/>' +
           '<g transform="rotate(-90 90 90)">' + segs + "</g>" +
           '<text x="90" y="88" text-anchor="middle" class="donut-num">' + esc(o.center || UI.fmt(total)) + "</text>" +
           '<text x="90" y="110" text-anchor="middle" class="donut-lbl">' + esc(o.centerLabel || "total") + "</text>" +
@@ -171,8 +178,8 @@ window.Charts = (function () {
       var w = Math.max(8, (s.value / top) * 100);
       var prev = i ? steps[i - 1].value : null;
       var conv = prev ? s.value / prev : null;
-      return (i ? '<div class="fn-drop"><span>↓ ' + (prev ? UI.pct(conv, 0) : "–") + ' continue</span>' +
-          (prev && conv < 1 ? '<span class="c-red">−' + UI.fmt(prev - s.value) + " drop</span>" : "") + "</div>" : "") +
+      return (i ? '<div class="fn-drop"><span>↓ ' + (prev ? UI.pct(conv, 0) : "–") + ' move on</span>' +
+          (prev && conv < 1 ? '<span class="c-red">' + UI.fmt(prev - s.value) + " lost here</span>" : "") + "</div>" : "") +
         '<div class="fn-step"><div class="fn-bar" style="--w:' + w.toFixed(1) + "%;--c:" + s.color + ";animation-delay:" + i * 90 + 'ms"></div>' +
         '<div class="fn-text"><span>' + esc(s.label) + "</span><b>" + UI.fmt(s.value) + "</b></div></div>";
     }).join("") + "</div>";
@@ -183,13 +190,14 @@ window.Charts = (function () {
     o = o || {};
     var R = 64, C = 2 * Math.PI * R, p = Math.max(0, Math.min(1, pct));
     el.innerHTML =
-      '<svg viewBox="0 0 160 160" class="ring" role="img" aria-label="' + Math.round(pct * 100) + '% of goal">' +
-        '<defs><linearGradient id="ringG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8f7dff"/><stop offset=".6" stop-color="#2fe3f0"/><stop offset="1" stop-color="#c3f75c"/></linearGradient></defs>' +
-        '<circle r="' + R + '" cx="80" cy="80" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="14"/>' +
+      '<svg viewBox="0 0 160 160" class="ring" role="img" aria-label="' + Math.round(pct * 100) + '% of the target reached">' +
+        // brand gradient: indigo at 12 o'clock, violet down the sides, coral at the bottom (the arc's local x-axis points up)
+        '<defs><linearGradient id="ringG" x1="1" y1="0" x2="0" y2="0"><stop offset="0" stop-color="#3d3bd9"/><stop offset=".5" stop-color="#8b5cf6"/><stop offset="1" stop-color="#ff6b4a"/></linearGradient></defs>' +
+        '<circle r="' + R + '" cx="80" cy="80" fill="none" stroke="rgba(22,20,58,.07)" stroke-width="14"/>' +
         '<circle r="' + R + '" cx="80" cy="80" fill="none" stroke="url(#ringG)" stroke-width="14" stroke-linecap="round" transform="rotate(-90 80 80)" ' +
           'stroke-dasharray="' + C + '" stroke-dashoffset="' + C + '" class="ring-arc"/>' +
         '<text x="80" y="80" text-anchor="middle" class="ring-num">' + Math.round(pct * 100) + "%</text>" +
-        '<text x="80" y="102" text-anchor="middle" class="ring-lbl">' + esc(o.label || "of goal") + "</text>" +
+        '<text x="80" y="102" text-anchor="middle" class="ring-lbl">' + esc(o.label || "of target") + "</text>" +
       "</svg>";
     var arc = el.querySelector(".ring-arc");
     arc.getBoundingClientRect(); // commit the start state so the transition runs
@@ -203,7 +211,7 @@ window.Charts = (function () {
     var pts = values.map(function (v, i) { return [(i / (values.length - 1)) * W, H - 3 - (v / max) * (H - 6)]; });
     var d = pts.map(function (p, i) { return (i ? "L" : "M") + p[0].toFixed(1) + "," + p[1].toFixed(1); }).join("");
     return '<svg class="spark" viewBox="0 0 ' + W + " " + H + '" preserveAspectRatio="none" aria-hidden="true">' +
-      '<path d="' + d + "L" + W + "," + H + "L0," + H + 'Z" fill="' + color + '" opacity=".12"/>' +
+      '<path d="' + d + "L" + W + "," + H + "L0," + H + 'Z" fill="' + color + '" opacity=".1"/>' +
       '<path d="' + d + '" fill="none" stroke="' + color + '" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></svg>';
   }
 

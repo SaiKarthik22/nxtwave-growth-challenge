@@ -149,3 +149,15 @@ and dedupe, doGet stats with sanitized public data, formula-injection protection
 docs/BACKEND_SETUP.md, docs/DEPLOY.md (GitHub + GitHub Pages + Netlify Drop), and a
 final QA pass: run npm run check, test mobile widths, and check console errors.
 ```
+
+**Module 9: Aurora light redesign**
+```text
+Module 9: restyle the whole app into a bright "Aurora light" theme without changing any
+behaviour: a paper background (#f6f5fb) with slowly drifting aurora colour blobs on a
+canvas (indigo, coral, teal, rose, sky), deep indigo #3d3bd9 + coral #ff6b4a accents,
+Sora (display) + Plus Jakarta Sans (body) + IBM Plex Mono (code), white rounded cards with
+soft shadows, a floating frosted nav pill, coral pill CTAs with a sheen sweep,
+rise-and-unblur scroll reveals, a light code editor in the hero and a light QR poster.
+Keep every id, data attribute, feature name, reward and number; refresh about 15% of the
+secondary copy. Check contrast, 390px mobile and console errors.
+```

@@ -36,7 +36,7 @@ https://<your-username>.github.io/nxtwave-growth-challenge/
 ```
 
 ### 5. Final touches
-- Check that the live link at the top of `README.md` and `repoUrl` in `js/config.js` use your username. They are preset for `saikoushik22`.
+- Check that the live link at the top of `README.md` and `repoUrl` in `js/config.js` use your username. They are preset for `SaiKarthik22`.
 - After any change: `git add -A && git commit -m "Update" && git push`. Pages redeploys automatically.
 
 ---

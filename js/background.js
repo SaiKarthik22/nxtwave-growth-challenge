@@ -1,231 +1,152 @@
 /* =========================================================
-   BuildAI·60 — Neural-network background
-   Drifting nodes, connecting synapses and "signal" pulses that
-   hop from neuron to neuron. Pauses when the tab is hidden.
+   BuildAI·60 — Aurora background
+   Five large, soft colour blobs drifting on slow independent orbits,
+   with a gentle parallax toward the pointer and while scrolling.
+   Drawn at 1/3 resolution and upscaled + CSS-blurred, so it stays cheap.
+   Pauses when the tab is hidden; one static frame under reduced motion.
    ========================================================= */
 (function () {
   "use strict";
   var canvas = document.getElementById("bg-canvas");
   if (!canvas || !canvas.getContext) return;
 
-  var ctx = canvas.getContext("2d");
-  var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var calm = document.body.getAttribute("data-bg") === "calm";
+  var ctx = null;
+  try { ctx = canvas.getContext("2d", { alpha: true }); } catch (e) { ctx = null; }
+  if (!ctx || typeof ctx.createRadialGradient !== "function") return;
+
+  var root = document.documentElement;
+  var reduceMotion = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  var calm = document.body && document.body.getAttribute("data-bg") === "calm";
   var TAU = Math.PI * 2;
-  var COLORS = [
-    [143, 125, 255], // violet
-    [47, 227, 240],  // cyan
-    [195, 247, 92],  // lime
+  var SCALE = 1 / 3;          // render resolution relative to CSS size
+  var FRAME_MS = 1000 / 30;   // the blobs move slowly; 30 fps is plenty
+  var ALPHA = calm ? 0.68 : 0.9;
+  var SPEED = calm ? 0.75 : 1;
+
+  // x, y: home position (0-1 of the canvas); ax, ay: orbit size; p: orbit period in seconds;
+  // r: radius as a share of the larger side; a: peak alpha; depth: parallax strength.
+  var BLOBS = [
+    { c: [111, 108, 242], a: 0.38, r: 0.46, x: 0.16, y: 0.14, ax: 0.14, ay: 0.10, p: 52, ph: 0.0, depth: 1.0 },  // indigo
+    { c: [255, 143, 94],  a: 0.30, r: 0.38, x: 0.86, y: 0.18, ax: 0.10, ay: 0.13, p: 64, ph: 1.9, depth: 0.7 },  // coral
+    { c: [43, 196, 180],  a: 0.26, r: 0.40, x: 0.74, y: 0.86, ax: 0.13, ay: 0.09, p: 46, ph: 3.4, depth: 0.55 }, // teal
+    { c: [240, 108, 155], a: 0.25, r: 0.32, x: 0.10, y: 0.80, ax: 0.09, ay: 0.12, p: 70, ph: 4.6, depth: 0.85 }, // rose
+    { c: [127, 178, 255], a: 0.32, r: 0.42, x: 0.50, y: 0.46, ax: 0.16, ay: 0.11, p: 38, ph: 2.6, depth: 0.4 },  // sky
   ];
 
-  var W = 0, H = 0, DPR = 1;
-  var nodes = [];
-  var pulses = [];
-  var raf = 0;
-  var lastSpawn = 0;
-  var mouse = { x: -9999, y: -9999, active: false };
-
-  function linkDist() { return Math.min(175, Math.max(110, W / 9)); }
+  var W = 1, H = 1;           // backing-store size (low-res)
+  var raf = 0, last = 0, t0 = 0, elapsed = 0;
+  var pointer = { tx: 0, ty: 0, x: 0, y: 0 };   // -0.5..0.5, eased
+  var scroll = { t: 0, v: 0 };                  // 0..1 through the page, eased
+  var started = false;
 
   function rgba(c, a) { return "rgba(" + c[0] + "," + c[1] + "," + c[2] + "," + a.toFixed(3) + ")"; }
 
-  function makeNode() {
-    var roll = Math.random();
-    var col = roll < 0.55 ? COLORS[0] : roll < 0.9 ? COLORS[1] : COLORS[2];
-    var speed = 0.1 + Math.random() * 0.22;
-    var ang = Math.random() * TAU;
-    return {
-      x: Math.random() * W,
-      y: Math.random() * H,
-      vx: Math.cos(ang) * speed,
-      vy: Math.sin(ang) * speed,
-      r: 0.9 + Math.random() * 1.6,
-      col: col,
-      tw: Math.random() * TAU,
-      flash: 0,
-    };
-  }
-
   function resize() {
-    DPR = Math.min(window.devicePixelRatio || 1, 1.75);
-    W = window.innerWidth;
-    H = window.innerHeight;
-    canvas.width = Math.round(W * DPR);
-    canvas.height = Math.round(H * DPR);
-    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-    var target = Math.round(Math.min(calm ? 60 : 110, (W * H) / (calm ? 22000 : 12500)));
-    target = Math.max(target, 18);
-    while (nodes.length < target) nodes.push(makeNode());
-    if (nodes.length > target) nodes.length = target;
-    pulses = pulses.filter(function (p) { return p.a < nodes.length && p.b < nodes.length; });
+    var rect = canvas.getBoundingClientRect();
+    var cw = rect.width || window.innerWidth || 1;
+    var ch = rect.height || window.innerHeight || 1;
+    W = Math.max(1, Math.round(cw * SCALE));
+    H = Math.max(1, Math.round(ch * SCALE));
+    if (canvas.width !== W) canvas.width = W;
+    if (canvas.height !== H) canvas.height = H;
+    readScroll();
   }
 
-  function spawnPulse(from, hops) {
-    var a = nodes[from];
-    if (!a) return;
-    var L = linkDist(), L2 = L * L, near = [];
-    for (var j = 0; j < nodes.length; j++) {
-      if (j === from) continue;
-      var dx = a.x - nodes[j].x, dy = a.y - nodes[j].y;
-      if (dx * dx + dy * dy < L2) near.push(j);
-    }
-    if (!near.length) return;
-    pulses.push({
-      a: from,
-      b: near[(Math.random() * near.length) | 0],
-      t: 0,
-      speed: 0.011 + Math.random() * 0.012,
-      hops: hops,
-      col: a.col,
-    });
+  function readScroll() {
+    var max = Math.max(1, (root.scrollHeight || 0) - (window.innerHeight || 0));
+    scroll.t = Math.min(1, Math.max(0, (window.scrollY || window.pageYOffset || 0) / max));
   }
 
-  function frame(now) {
+  function draw(sec) {
     ctx.clearRect(0, 0, W, H);
-    var L = linkDist(), L2 = L * L;
-    var lineAlpha = calm ? 0.15 : 0.22;
-    var i, j, n, a, b, dx, dy, d2;
-
-    // move
-    for (i = 0; i < nodes.length; i++) {
-      n = nodes[i];
-      n.x += n.vx;
-      n.y += n.vy;
-      if (n.x < -30) n.x = W + 30; else if (n.x > W + 30) n.x = -30;
-      if (n.y < -30) n.y = H + 30; else if (n.y > H + 30) n.y = -30;
-      if (mouse.active) { // gentle repel bubble around the cursor
-        dx = n.x - mouse.x; dy = n.y - mouse.y; d2 = dx * dx + dy * dy;
-        if (d2 < 8100 && d2 > 0.01) {
-          var f = (1 - Math.sqrt(d2) / 90) * 0.9;
-          n.x += (dx / Math.sqrt(d2)) * f;
-          n.y += (dy / Math.sqrt(d2)) * f;
-        }
-      }
+    var big = Math.max(W, H);
+    var s = sec * SPEED;
+    for (var i = 0; i < BLOBS.length; i++) {
+      var b = BLOBS[i];
+      var w = (TAU / b.p) * s + b.ph;
+      // independent elliptical orbit + a slow breathing radius
+      var cx = (b.x + Math.sin(w) * b.ax + Math.sin(w * 0.37 + i) * b.ax * 0.35) * W;
+      var cy = (b.y + Math.cos(w * 0.8) * b.ay) * H;
+      // parallax: drift away from the pointer and up/down with scroll progress
+      cx -= pointer.x * b.depth * W * 0.06;
+      cy -= pointer.y * b.depth * H * 0.06;
+      cy -= (scroll.v - 0.5) * b.depth * H * 0.28;
+      var R = Math.max(1, b.r * big * (1 + Math.sin(w * 1.3 + i * 0.7) * 0.07));
+      var a = b.a * ALPHA;
+      var g = ctx.createRadialGradient(cx, cy, 0, cx, cy, R);
+      g.addColorStop(0, rgba(b.c, a));
+      g.addColorStop(0.42, rgba(b.c, a * 0.58));
+      g.addColorStop(0.75, rgba(b.c, a * 0.16));
+      g.addColorStop(1, rgba(b.c, 0));
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, W, H);
     }
-
-    // synapses
-    ctx.lineWidth = 1;
-    for (i = 0; i < nodes.length; i++) {
-      a = nodes[i];
-      for (j = i + 1; j < nodes.length; j++) {
-        b = nodes[j];
-        dx = a.x - b.x; dy = a.y - b.y; d2 = dx * dx + dy * dy;
-        if (d2 < L2) {
-          ctx.strokeStyle = rgba(a.col, (1 - d2 / L2) * lineAlpha);
-          ctx.beginPath();
-          ctx.moveTo(a.x, a.y);
-          ctx.lineTo(b.x, b.y);
-          ctx.stroke();
-        }
-      }
+    if (!started) {
+      started = true;
+      root.classList.add("has-aurora");
     }
+  }
 
-    // cursor links
-    if (mouse.active) {
-      for (i = 0; i < nodes.length; i++) {
-        n = nodes[i];
-        dx = n.x - mouse.x; dy = n.y - mouse.y; d2 = dx * dx + dy * dy;
-        if (d2 < 40000) {
-          ctx.strokeStyle = rgba(COLORS[1], (1 - Math.sqrt(d2) / 200) * 0.45);
-          ctx.beginPath();
-          ctx.moveTo(mouse.x, mouse.y);
-          ctx.lineTo(n.x, n.y);
-          ctx.stroke();
-        }
-      }
-    }
-
-    // neurons
-    for (i = 0; i < nodes.length; i++) {
-      n = nodes[i];
-      n.tw += 0.025;
-      var glow = 0.55 + Math.sin(n.tw) * 0.35;
-      ctx.fillStyle = rgba(n.col, 0.45 + glow * 0.45);
-      ctx.beginPath();
-      ctx.arc(n.x, n.y, n.r, 0, TAU);
-      ctx.fill();
-      if (n.flash > 0) {
-        ctx.strokeStyle = rgba(n.col, n.flash * 0.7);
-        ctx.lineWidth = 1.2;
-        ctx.beginPath();
-        ctx.arc(n.x, n.y, n.r + (1 - n.flash) * 16, 0, TAU);
-        ctx.stroke();
-        ctx.fillStyle = rgba(n.col, n.flash * 0.9);
-        ctx.beginPath();
-        ctx.arc(n.x, n.y, n.r + 1.2, 0, TAU);
-        ctx.fill();
-        n.flash -= 0.025;
-        ctx.lineWidth = 1;
-      }
-    }
-
-    // signal pulses
-    if (!reduceMotion) {
-      if (now - lastSpawn > (calm ? 1100 : 450) && pulses.length < (calm ? 6 : 14)) {
-        lastSpawn = now;
-        spawnPulse((Math.random() * nodes.length) | 0, 2 + ((Math.random() * 4) | 0));
-      }
-      for (i = pulses.length - 1; i >= 0; i--) {
-        var p = pulses[i];
-        a = nodes[p.a]; b = nodes[p.b];
-        if (!a || !b) { pulses.splice(i, 1); continue; }
-        p.t = Math.min(1, p.t + p.speed);
-        var x = a.x + (b.x - a.x) * p.t, y = a.y + (b.y - a.y) * p.t;
-        var tt = Math.max(0, p.t - 0.3);
-        var tx = a.x + (b.x - a.x) * tt, ty = a.y + (b.y - a.y) * tt;
-        var g = ctx.createLinearGradient(tx, ty, x, y);
-        g.addColorStop(0, rgba(p.col, 0));
-        g.addColorStop(1, rgba(p.col, 0.95));
-        ctx.strokeStyle = g;
-        ctx.lineWidth = 1.7;
-        ctx.beginPath();
-        ctx.moveTo(tx, ty);
-        ctx.lineTo(x, y);
-        ctx.stroke();
-        ctx.fillStyle = rgba(p.col, 0.16);
-        ctx.beginPath();
-        ctx.arc(x, y, 6, 0, TAU);
-        ctx.fill();
-        ctx.fillStyle = rgba(p.col, 1);
-        ctx.beginPath();
-        ctx.arc(x, y, 1.9, 0, TAU);
-        ctx.fill();
-        ctx.lineWidth = 1;
-        if (p.t >= 1) {
-          pulses.splice(i, 1);
-          b.flash = 1;
-          if (p.hops > 0) spawnPulse(p.b, p.hops - 1);
-        }
-      }
-    }
+  function ease() {
+    pointer.x += (pointer.tx - pointer.x) * 0.045;
+    pointer.y += (pointer.ty - pointer.y) * 0.045;
+    scroll.v += (scroll.t - scroll.v) * 0.06;
   }
 
   function loop(now) {
-    frame(now || 0);
+    raf = requestAnimationFrame(loop);
+    if (now - last < FRAME_MS) return;
+    elapsed += Math.min(now - (last || now), 100); // never jump after a stall
+    last = now;
+    ease();
+    draw(t0 + elapsed / 1000);
+  }
+
+  function stop() { cancelAnimationFrame(raf); raf = 0; }
+
+  function start() {
+    stop();
+    if (reduceMotion) {
+      scroll.v = 0.5;
+      draw(t0);
+      return;
+    }
+    last = 0;
     raf = requestAnimationFrame(loop);
   }
 
-  function start() {
-    cancelAnimationFrame(raf);
-    if (reduceMotion) { frame(0); return; }
-    raf = requestAnimationFrame(loop);
-  }
+  // A random starting phase so every page load looks slightly different
+  t0 = Math.random() * 600;
 
   var resizeTimer;
   window.addEventListener("resize", function () {
     clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(function () { resize(); if (reduceMotion) frame(0); }, 120);
-  });
-  window.addEventListener("pointermove", function (e) {
-    if (e.pointerType !== "mouse") return;
-    mouse.x = e.clientX; mouse.y = e.clientY; mouse.active = true;
-  }, { passive: true });
-  document.addEventListener("pointerleave", function () { mouse.active = false; });
-  window.addEventListener("blur", function () { mouse.active = false; });
-  document.addEventListener("visibilitychange", function () {
-    if (document.hidden) cancelAnimationFrame(raf); else start();
+    resizeTimer = setTimeout(function () {
+      resize();
+      if (reduceMotion || document.hidden) draw(t0 + elapsed / 1000);
+    }, 140);
   });
 
-  resize();
-  start();
+  if (!reduceMotion) {
+    window.addEventListener("pointermove", function (e) {
+      if (e.pointerType && e.pointerType !== "mouse" && e.pointerType !== "pen") return;
+      pointer.tx = e.clientX / (window.innerWidth || 1) - 0.5;
+      pointer.ty = e.clientY / (window.innerHeight || 1) - 0.5;
+    }, { passive: true });
+    document.addEventListener("pointerleave", function () { pointer.tx = 0; pointer.ty = 0; });
+    window.addEventListener("scroll", readScroll, { passive: true });
+  }
+
+  document.addEventListener("visibilitychange", function () {
+    if (document.hidden) stop(); else start();
+  });
+
+  try {
+    resize();
+    scroll.v = scroll.t;
+    draw(t0);            // paint the first frame immediately (no flash of empty paper)
+    if (!document.hidden) start();
+  } catch (e) {
+    stop();              // never let the decoration break the page
+  }
 })();

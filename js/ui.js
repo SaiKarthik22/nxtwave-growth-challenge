@@ -24,21 +24,25 @@ window.UI = (function () {
     for (var i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); }
     return h >>> 0;
   }
+  // Pastel gradients with a matching deep ink for the initials (all >= 4.5:1 contrast)
   var AV = [
-    "linear-gradient(135deg,#a99bff,#6aeef7)",
-    "linear-gradient(135deg,#6aeef7,#c3f75c)",
-    "linear-gradient(135deg,#ffb547,#ff5d8f)",
-    "linear-gradient(135deg,#c3f75c,#3ee6a0)",
-    "linear-gradient(135deg,#ff5d8f,#a99bff)",
-    "linear-gradient(135deg,#3ee6a0,#2fe3f0)",
+    { bg: "linear-gradient(135deg,#e6e5ff,#c9c7fb)", ink: "#2e2cb0" }, // indigo
+    { bg: "linear-gradient(135deg,#ffe6dc,#ffc4b0)", ink: "#9c2f19" }, // coral
+    { bg: "linear-gradient(135deg,#d8f4ef,#a9e6dc)", ink: "#075e56" }, // teal
+    { bg: "linear-gradient(135deg,#fde3ed,#f8bfd3)", ink: "#9b1f48" }, // rose
+    { bg: "linear-gradient(135deg,#ddebfd,#b7d5fa)", ink: "#1c5a9e" }, // sky
+    { bg: "linear-gradient(135deg,#fff1cf,#ffd98d)", ink: "#734300" }, // amber
   ];
-  function avatarBg(name) { return AV[hash(String(name || "?")) % AV.length]; }
+  function avatarPick(name) { return AV[hash(String(name || "?")) % AV.length]; }
+  function avatarBg(name) { return avatarPick(name).bg; }
+  function avatarInk(name) { return avatarPick(name).ink; }
   function initials(name) {
     var parts = String(name || "?").trim().split(/\s+/);
     return ((parts[0] || "?")[0] + (parts.length > 1 ? parts[parts.length - 1][0] : "")).toUpperCase();
   }
   function avatar(name) {
-    return '<span class="avatar" style="--av:' + avatarBg(name) + '" aria-hidden="true">' + esc(initials(name)) + "</span>";
+    var p = avatarPick(name);
+    return '<span class="avatar" style="--av:' + p.bg + ";--av-ink:" + p.ink + '" aria-hidden="true">' + esc(initials(name)) + "</span>";
   }
   function dateFmt(d, opts) {
     return new Date(d).toLocaleString("en-IN", Object.assign({ timeZone: "Asia/Kolkata" }, opts || {}));
@@ -104,24 +108,24 @@ window.UI = (function () {
           '<div class="footer-grid">' +
             "<div>" +
               '<a href="index.html" class="logo"><span class="logo-mark">AI</span><span>BuildAI<span class="grad-text">·60</span></span></a>' +
-              '<p class="muted small mt-16" style="max-width:42ch">A referral-powered growth engine to get 500 final-year engineers into NxtWave\'s free workshop, <em>"Build Your First AI Project in 60 Minutes"</em>. ₹2,000 budget, 7 days.</p>' +
+              '<p class="small mt-16" style="max-width:42ch">The plan to bring 500 final-year engineers into NxtWave\'s free live session, <em>"Build Your First AI Project in 60 Minutes"</em>, in one week on ₹2,000, mostly through classmates inviting classmates.</p>' +
             "</div>" +
-            "<div><h4>For students</h4><ul>" +
-              '<li><a href="index.html#projects">What you\'ll build</a></li>' +
-              '<li><a href="index.html#register">Reserve a free seat</a></li>' +
-              '<li><a href="referral.html">Referral Hub &amp; leaderboard</a></li>' +
-              '<li><a href="referral.html#champion">Become a Campus Champion</a></li>' +
+            "<div><h4>Join in</h4><ul>" +
+              '<li><a href="index.html#projects">See the project ideas</a></li>' +
+              '<li><a href="index.html#register">Book your free seat</a></li>' +
+              '<li><a href="referral.html">Invite friends in the Referral Hub</a></li>' +
+              '<li><a href="referral.html#champion">Sign up as a Campus Champion</a></li>' +
             "</ul></div>" +
-            "<div><h4>For the growth team</h4><ul>" +
-              '<li><a href="dashboard.html">Growth Command Center</a></li>' +
-              '<li><a href="referral.html#leaderboard">Live leaderboards</a></li>' +
-              '<li><a href="referral.html#champion">Campus Champion kit</a></li>' +
-              (window.CONFIG && CONFIG.repoUrl ? '<li><a href="' + esc(CONFIG.repoUrl) + '" target="_blank" rel="noopener">Source code on GitHub ↗</a></li>' : "") +
+            "<div><h4>Run the campaign</h4><ul>" +
+              '<li><a href="dashboard.html">Open the Growth Command Center</a></li>' +
+              '<li><a href="referral.html#leaderboard">Rankings and College Battle</a></li>' +
+              '<li><a href="referral.html#champion">Get the Champion kit</a></li>' +
+              (window.CONFIG && CONFIG.repoUrl ? '<li><a href="' + esc(CONFIG.repoUrl) + '" target="_blank" rel="noopener">Read the code on GitHub ↗</a></li>' : "") +
             "</ul></div>" +
           "</div>" +
           '<div class="footer-bottom">' +
-            "<span>© " + year + " BuildAI·60: concept prototype for the NxtWave Growth Intern challenge. Not an official NxtWave page.</span>" +
-            "<span>Built with vanilla HTML/CSS/JS · ₹0 stack</span>" +
+            "<span>© " + year + " BuildAI·60 · A student concept made for the NxtWave Growth Intern challenge. NxtWave has not published or endorsed this site.</span>" +
+            "<span>Hand-written HTML, CSS and JS · costs ₹0 to host</span>" +
           "</div>" +
         "</div>" +
       "</footer>";
@@ -279,16 +283,27 @@ window.UI = (function () {
   }
 
   /* ---------- pointer effects ---------- */
+  // Soft indigo highlight that follows the pointer inside .spotlight cards (colour lives in CSS).
+  // Updates are batched into one write per animation frame.
   function spotlight() {
+    if (!finePointer) return;
+    var pending = null, card = null, frame = 0;
     document.addEventListener("pointermove", function (e) {
-      var card = e.target.closest && e.target.closest(".spotlight");
+      card = e.target.closest && e.target.closest(".spotlight");
       if (!card) return;
-      var r = card.getBoundingClientRect();
-      card.style.setProperty("--mx", e.clientX - r.left + "px");
-      card.style.setProperty("--my", e.clientY - r.top + "px");
+      pending = { x: e.clientX, y: e.clientY };
+      if (frame) return;
+      frame = requestAnimationFrame(function () {
+        frame = 0;
+        if (!card || !pending) return;
+        var r = card.getBoundingClientRect();
+        card.style.setProperty("--mx", (pending.x - r.left).toFixed(1) + "px");
+        card.style.setProperty("--my", (pending.y - r.top).toFixed(1) + "px");
+      });
     }, { passive: true });
   }
 
+  // Buttons marked .magnetic lean gently toward the pointer.
   function magnetic() {
     if (!finePointer || reduceMotion) return;
     document.addEventListener("pointermove", function (e) {
@@ -301,19 +316,22 @@ window.UI = (function () {
       var dx = e.clientX - (r.left + r.width / 2);
       var dy = e.clientY - (r.top + r.height / 2);
       el.classList.add("is-mag");
-      el.style.transform = "translate(" + dx * 0.18 + "px," + dy * 0.28 + "px)";
+      el.style.transform = "translate(" + (dx * 0.12).toFixed(1) + "px," + (dy * 0.2 - 2).toFixed(1) + "px)";
     }, { passive: true });
   }
 
+  // Subtle 3D tilt for [data-tilt] cards: small angles suit the light, flat UI.
   function tilt() {
     if (!finePointer || reduceMotion) return;
     $$("[data-tilt]").forEach(function (el) {
+      if (el.getAttribute("data-tilt-bound")) return;
+      el.setAttribute("data-tilt-bound", "1");
       el.style.transformStyle = "preserve-3d";
       el.addEventListener("pointermove", function (e) {
         var r = el.getBoundingClientRect();
         var px = (e.clientX - r.left) / r.width - 0.5;
         var py = (e.clientY - r.top) / r.height - 0.5;
-        el.style.transform = "perspective(900px) rotateX(" + (-py * 7).toFixed(2) + "deg) rotateY(" + (px * 9).toFixed(2) + "deg) translateY(-4px)";
+        el.style.transform = "perspective(1100px) rotateX(" + (-py * 4).toFixed(2) + "deg) rotateY(" + (px * 5).toFixed(2) + "deg) translateY(-4px)";
       });
       el.addEventListener("pointerleave", function () { el.style.transform = ""; });
     });
@@ -359,7 +377,7 @@ window.UI = (function () {
 
   return {
     $: $, $$: $$, esc: esc, fmt: fmt, pct: pct, clamp: clamp, hash: hash,
-    avatar: avatar, avatarBg: avatarBg, initials: initials, dateFmt: dateFmt,
+    avatar: avatar, avatarBg: avatarBg, avatarInk: avatarInk, initials: initials, dateFmt: dateFmt,
     reveal: reveal, countUp: countUp, observeCounters: observeCounters,
     toast: toast, copy: copy, tabs: tabs, tilt: tilt,
     reduceMotion: reduceMotion,

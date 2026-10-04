@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Referral Hub · BuildAI·60</title>
   <meta name="description" content="Track your referrals, climb the leaderboard, and get your Campus Champion kit for NxtWave's free AI workshop.">
-  <meta name="theme-color" content="#05060b">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%238f7dff'/%3E%3Cstop offset='.6' stop-color='%232fe3f0'/%3E%3Cstop offset='1' stop-color='%23c3f75c'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Ctext x='32' y='42' font-family='Arial' font-weight='900' font-size='26' text-anchor='middle' fill='%2305060b'%3EAI%3C/text%3E%3C/svg%3E">
+  <meta name="theme-color" content="#f6f5fb">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%233d3bd9'/%3E%3Cstop offset='1' stop-color='%23ff6b4a'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='18' fill='url(%23g)'/%3E%3Ctext x='32' y='41' font-family='Arial' font-weight='900' font-size='25' text-anchor='middle' fill='%23ffffff'%3EAI%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/animations.css">
@@ -26,15 +26,29 @@
   <main id="main">
     <!-- ================= HERO ================= -->
     <section class="hub-hero">
-      <div class="container">
-        <span class="eyebrow" data-reveal>Referral Hub</span>
-        <h1 class="h-display split hub-title">Bring your batch. <span class="grad-text">Climb the board.</span></h1>
-        <p class="lead" data-reveal style="--d:200">Every registrant gets a personal link. Every Campus Champion gets a tracking link, a QR poster and ready-to-send WhatsApp scripts. Every signup is credited live.</p>
-        <div class="hub-stats" data-reveal style="--d:300">
-          <div class="hs"><b id="hs-total">0</b><span>registered</span></div>
-          <div class="hs"><b id="hs-colleges">0</b><span>colleges</span></div>
-          <div class="hs"><b id="hs-champs">0</b><span>active champions</span></div>
-          <div class="hs"><b id="hs-peer">0%</b><span>came via a peer</span></div>
+      <div class="container hub-hero-grid">
+        <div class="hub-copy">
+          <span class="eyebrow" data-reveal>Referral Hub · the scoreboard</span>
+          <h1 class="h-display split hub-title">Share your link. <span class="grad-text">We keep score.</span></h1>
+          <p class="lead" data-reveal style="--d:200">Each workshop registration comes with a personal invite link. When a classmate signs up through yours, the sign-up is credited to you on this page, the boards reshuffle and your next reward moves closer. Class reps and club leads, the Campus Champion kit is waiting at the bottom.</p>
+          <div class="hub-stats" data-reveal style="--d:300">
+            <div class="hs"><b id="hs-total">0</b><span>seats booked so far</span></div>
+            <div class="hs"><b id="hs-colleges">0</b><span>colleges in the race</span></div>
+            <div class="hs"><b id="hs-champs">0</b><span>champions bringing people in</span></div>
+            <div class="hs"><b id="hs-peer">0%</b><span>joined through an invite</span></div>
+          </div>
+        </div>
+        <div class="hub-art" aria-hidden="true" data-reveal="zoom" style="--d:250">
+          <div class="art-halo"></div>
+          <div class="art-ring"></div>
+          <span class="art-chip c1 float"><em>🔗</em>Personal invite link</span>
+          <span class="art-chip c2 float-slow"><em>📲</em>3 posts, ready to send</span>
+          <span class="art-chip c3 float"><em>🏫</em>College Battle</span>
+          <div class="art-podium">
+            <div class="art-step s2"><span class="art-medal bob">🥈</span><i>2</i></div>
+            <div class="art-step s1"><span class="art-medal bob">🥇</span><i>1</i></div>
+            <div class="art-step s3"><span class="art-medal bob">🥉</span><i>3</i></div>
+          </div>
         </div>
       </div>
     </section>
@@ -45,13 +59,13 @@
         <div class="card stats-card card-glow is-lit" data-reveal>
           <div class="stats-head">
             <div>
-              <h2 class="h-card">📈 Your referral stats</h2>
-              <p class="muted small mt-8">Enter the code you got after registering (e.g. <span class="mono c-cyan">RAVI-7K2</span>).</p>
+              <h2 class="h-card"><span class="icon-tile" aria-hidden="true">🔎</span>Check your score</h2>
+              <p class="muted small mt-8">It's on your confirmation screen, and it's the part after <span class="mono">ref=</span> in your invite link. Example: <span class="mono c-indigo">RAVI-7K2</span>.</p>
             </div>
             <form class="lookup" id="lookup-form">
-              <label class="sr-only" for="lookup-code">Referral code</label>
-              <input class="input mono" id="lookup-code" placeholder="YOUR-CODE" maxlength="12" autocomplete="off" spellcheck="false">
-              <button class="btn btn-primary" type="submit">Check</button>
+              <label class="sr-only" for="lookup-code">Invite code</label>
+              <input class="input mono" id="lookup-code" placeholder="ENTER CODE" maxlength="12" autocomplete="off" spellcheck="false">
+              <button class="btn btn-primary" type="submit">See my score</button>
             </form>
           </div>
           <div id="my-stats" class="my-stats"></div>
@@ -63,13 +77,13 @@
     <section class="section" id="leaderboard">
       <div class="container">
         <div class="section-head center">
-          <span class="eyebrow" data-reveal>Leaderboard · live</span>
-          <h2 class="h-section split">Who's bringing the <span class="grad-text">most builders?</span></h2>
+          <span class="eyebrow" data-reveal>Updated after every sign-up</span>
+          <h2 class="h-section split">Three ways <span class="grad-text">to top a board.</span></h2>
           <p class="lead" data-reveal style="--d:200" id="prize-line"></p>
         </div>
         <div class="lb-tabs" data-reveal>
           <div class="tabs" role="tablist" aria-label="Leaderboards">
-            <button class="tab" role="tab" id="tab-ref" aria-controls="panel-ref" aria-selected="true">🏆 Top referrers</button>
+            <button class="tab" role="tab" id="tab-ref" aria-controls="panel-ref" aria-selected="true">🏆 Students</button>
             <button class="tab" role="tab" id="tab-champ" aria-controls="panel-champ" aria-selected="false" tabindex="-1">🎖️ Campus Champions</button>
             <button class="tab" role="tab" id="tab-college" aria-controls="panel-college" aria-selected="false" tabindex="-1">🏫 College Battle</button>
           </div>
@@ -84,17 +98,18 @@
     <section class="section" id="champion">
       <div class="container champ-grid">
         <div class="champ-copy">
-          <span class="eyebrow" data-reveal>Campus Champions</span>
-          <h2 class="h-section split">Lead the AI push <span class="grad-text">on your campus.</span></h2>
-          <p class="lead mt-24" data-reveal style="--d:150">Class reps, coding-club leads and GDG/IEEE leads: your batch trusts you more than any ad. Get a kit that takes 2 minutes a day.</p>
+          <span class="eyebrow" data-reveal>Run a class group?</span>
+          <h2 class="h-section split">Share it with your class. <span class="grad-text">Get credit for it.</span></h2>
+          <p class="lead mt-24" data-reveal style="--d:150">Section groups, coding clubs and GDG or IEEE chapters already reach the students this workshop is for. As a Campus Champion you post our ready-written messages there, and a tracking link records every registration you bring in. Posting takes a couple of minutes on three days of the week.</p>
           <ol class="steps" data-reveal style="--d:250">
-            <li><b>Get your kit</b><span>Tracking link, QR poster and 3 ready WhatsApp messages in English + Telugu.</span></li>
-            <li><b>Post 3 waves</b><span>Day 2 intro, Day 5 social proof, Day 7 last call, in your class groups.</span></li>
-            <li><b>Climb the board</b><span>Every signup through your link is credited to you live.</span></li>
+            <li><b>Tell us who you are</b><span>Five short fields. Your tracking link, a QR poster to print and three WhatsApp posts load right under the form.</span></li>
+            <li><b>Post on the right days</b><span>Day 2 introduces the workshop, Day 5 shows where your college stands, Day 7 is the final reminder. Every post comes in English and Telugu.</span></li>
+            <li><b>See it on the board</b><span>Each registration through your link is credited to you on the Campus Champions board. Friends from your college also push it up the College Battle.</span></li>
           </ol>
+          <span class="label perks-label" data-reveal style="--d:300">Champions also receive</span>
           <div class="perks" data-reveal style="--d:350">
-            <span class="pill">📜 Champion certificate</span>
-            <span class="pill">💼 LinkedIn recommendation</span>
+            <span class="pill">📜 A certificate naming you Campus Champion</span>
+            <span class="pill">💼 A LinkedIn recommendation</span>
             <span class="pill" id="champ-prize">🎁 Voucher pool</span>
           </div>
         </div>
@@ -102,33 +117,34 @@
         <div class="card card-glow is-lit champ-form-card" data-reveal="zoom" style="--d:100">
           <form id="champ-form" novalidate>
             <div class="form-head">
-              <h3 class="h-card">Get my Champion kit</h3>
-              <span class="badge badge-violet">Free</span>
+              <h3 class="h-card">Claim your Champion kit</h3>
+              <span class="badge badge-indigo">Free · 5 fields</span>
             </div>
+            <p class="form-sub">Nobody needs to approve you. Press the button and the kit opens underneath.</p>
             <div class="form-grid">
               <div class="field full">
-                <label for="c-name">Full name</label>
-                <input class="input" id="c-name" name="name" autocomplete="name" placeholder="e.g. Keerthi Reddy" required>
-                <span class="err">Please enter your name</span>
+                <label for="c-name">Name for your poster</label>
+                <input class="input" id="c-name" name="name" autocomplete="name" placeholder="e.g. Sravani Kota" required>
+                <span class="err">Type your name the way it should appear on the poster</span>
               </div>
               <div class="field">
-                <label for="c-phone">WhatsApp number</label>
-                <div class="input-prefix"><span>+91</span><input class="input" id="c-phone" name="phone" type="tel" inputmode="numeric" maxlength="11" placeholder="98765 43210" required></div>
-                <span class="err">Enter a valid 10-digit number</span>
+                <label for="c-phone">Mobile (WhatsApp)</label>
+                <div class="input-prefix"><span>+91</span><input class="input" id="c-phone" name="phone" type="tel" inputmode="numeric" maxlength="11" placeholder="81234 56789" required></div>
+                <span class="err">10 digits, starting with 6, 7, 8 or 9</span>
               </div>
               <div class="field">
-                <label for="c-email">Email</label>
-                <input class="input" id="c-email" name="email" type="email" autocomplete="email" placeholder="you@college.edu" required>
-                <span class="err">Enter a valid email</span>
+                <label for="c-email">Email for updates</label>
+                <input class="input" id="c-email" name="email" type="email" autocomplete="email" placeholder="sravani@gmail.com" required>
+                <span class="err">Part of this email is missing, such as @ or .com</span>
               </div>
               <div class="field full">
-                <label for="c-college">College</label>
-                <input class="input" id="c-college" name="college" list="c-college-list" autocomplete="off" placeholder="Start typing your college…" required>
+                <label for="c-college">Which college?</label>
+                <input class="input" id="c-college" name="college" list="c-college-list" autocomplete="off" placeholder="Start with the name, e.g. GITAM" required>
                 <datalist id="c-college-list"></datalist>
-                <span class="err">Tell us your college</span>
+                <span class="err">Enter at least 3 letters of your college name</span>
               </div>
               <div class="field full">
-                <label for="c-role">Your role</label>
+                <label for="c-role">Your campus role</label>
                 <select class="input" id="c-role" name="role">
                   <option>Class Representative</option>
                   <option>Coding Club Lead</option>
@@ -138,7 +154,7 @@
                 </select>
               </div>
             </div>
-            <button class="btn btn-primary btn-lg btn-block mt-24" type="submit">Generate my kit →</button>
+            <button class="btn btn-primary btn-lg btn-block mt-24" type="submit">Create my kit →</button>
           </form>
         </div>
       </div>

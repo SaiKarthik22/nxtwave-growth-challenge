@@ -38,7 +38,7 @@
     if (diff <= 0) {
       const live = diff > -C.workshop.durationMin * 60000;
       $("#countdown").classList.toggle("live", live);
-      $(".countdown-bar .eyebrow").textContent = live ? "Live right now" : "Workshop finished";
+      $(".countdown-bar .eyebrow").textContent = live ? "Happening now" : "This session has ended";
       ["d", "h", "m", "s"].forEach((u) => setUnit(u, "00"));
       return;
     }
@@ -53,63 +53,69 @@
   /* ---------- live code demo ---------- */
   const PROJECTS = [
     {
-      file: "resume_roaster.py",
-      code: `# resume_roaster.py · built live, minute 25
+      file: "jd_decoder.py",
+      code: `# jd_decoder.py · typed live at minute 30
 import gradio as gr
-from helper import ask   # 3-line LLM helper
+from helper import ask   # our 3-line LLM helper
 
-def roast(resume):
-    prompt = ("Act like a strict tech recruiter. "
-              "Roast this resume + give 3 fixes:\\n")
-    return ask(prompt + resume)
-
-gr.Interface(roast, "textbox", "markdown",
-    title="Resume Roaster 🔥").launch(share=True)`,
-      slug: "resume-roaster",
-      app: {
-        title: "Resume Roaster 🔥",
-        input: "Final-year ECE · Python, C · 1 mini project…",
-        output: '"Mini project" isn\'t a project. <b>Fix #1:</b> ship this app and put the link at the top.',
-      },
-    },
-    {
-      file: "interview_coach.py",
-      code: `# interview_coach.py · project #2
-import gradio as gr
-from helper import ask
-
-def coach(question, answer):
-    prompt = (f"Q: {question}\\nA: {answer}\\n"
-              "Score my answer /10, then improve it.")
+def decode(job_post, my_skills):
+    prompt = (f"Job post:\\n{job_post}\\n"
+              f"My skills: {my_skills}\\n"
+              "List the must-have skills, my gaps "
+              "and a 7-day plan to close them.")
     return ask(prompt)
 
-gr.Interface(coach, ["textbox", "textbox"], "markdown",
-    title="Interview Coach 🎤").launch(share=True)`,
-      slug: "interview-coach",
+gr.Interface(decode, ["text", "text"], "markdown",
+    title="JD Decoder").launch(share=True)`,
+      slug: "jd-decoder",
       app: {
-        title: "Interview Coach 🎤",
-        input: "Q: Tell me about yourself. A: I'm from Guntur…",
-        output: "<b>6/10.</b> Lead with what you built, not your hometown. Try: \"I'm an ECE student who shipped…\"",
+        title: "JD Decoder",
+        input: "TCS JD: Java, SQL, DSA basics · Me: Python, C",
+        output: "<b>Match: 55%.</b> Gaps: SQL joins, Java OOP. <b>Day 1:</b> write 15 join queries on a sample table.",
       },
     },
     {
-      file: "quiz_buddy.py",
-      code: `# quiz_buddy.py · project #3
+      file: "viva_prep.py",
+      code: `# viva_prep.py · project 2 of 3
 import gradio as gr
 from helper import ask
 
-def make_quiz(notes):
-    prompt = ("Create 5 exam-style MCQs with answers "
-              "from these notes:\\n")
-    return ask(prompt + notes)
+def viva(subject, experiment):
+    prompt = (f"My {subject} lab viva is on "
+              f"'{experiment}'. Ask 5 questions "
+              "an examiner is most likely to ask, "
+              "each with a one-line answer.")
+    return ask(prompt)
 
-gr.Interface(make_quiz, "textbox", "markdown",
-    title="Notes → Quiz Buddy 📚").launch(share=True)`,
-      slug: "quiz-buddy",
+gr.Interface(viva, ["text", "text"], "markdown",
+    title="Viva Prep").launch(share=True)`,
+      slug: "viva-prep",
       app: {
-        title: "Notes → Quiz Buddy 📚",
-        input: "Unit 3 · Operating Systems · Deadlocks…",
-        output: "<b>Q1.</b> Which is NOT a necessary condition for deadlock? (a) Mutual exclusion (b) Preemption ✓",
+        title: "Viva Prep",
+        input: "DLD lab · Full adder with NAND gates",
+        output: "<b>Q1.</b> How many NAND gates does a full adder need? <b>A:</b> Nine. <b>Q2.</b> Why is NAND called a universal gate?",
+      },
+    },
+    {
+      file: "error_explainer.py",
+      code: `# error_explainer.py · project 3 of 3
+import gradio as gr
+from helper import ask
+
+def explain(error, language):
+    prompt = (f"Reply in {language}. Explain this "
+              "error to a beginner, then show the "
+              f"fixed line:\\n{error}")
+    return ask(prompt)
+
+lang = gr.Radio(["English", "Telugu"])
+gr.Interface(explain, ["text", lang], "markdown",
+    title="Error Explainer").launch(share=True)`,
+      slug: "error-explainer",
+      app: {
+        title: "Error Explainer",
+        input: "IndexError: list index out of range · Telugu",
+        output: "<b>కారణం:</b> marks లో 5 items ఉన్నాయి, Python 0 నుండి లెక్కిస్తుంది, అందుకే marks[5] లేదు. <b>Fix:</b> range(len(marks)) వాడండి.",
       },
     },
   ];
@@ -128,7 +134,17 @@ gr.Interface(make_quiz, "textbox", "markdown",
     if (last < src.length) out.push({ cls: "", text: src.slice(last) });
     return out;
   }
-  const highlighted = (src) => tokenize(src).map((s) => (s.cls ? `<span class="${s.cls}">${UI.esc(s.text)}</span>` : UI.esc(s.text))).join("");
+  // Each source line becomes a .code-line block, so CSS can number the lines in the gutter.
+  function highlightedLines(src) {
+    const lines = [[]];
+    tokenize(src).forEach((s) => {
+      s.text.split("\n").forEach((part, j) => {
+        if (j > 0) lines.push([]);
+        if (part) lines[lines.length - 1].push(s.cls ? `<span class="${s.cls}">${UI.esc(part)}</span>` : UI.esc(part));
+      });
+    });
+    return lines.map((l) => `<span class="code-line">${l.join("")}</span>`).join("");
+  }
 
   const body = $("#code-body"), term = $("#code-term"), preview = $("#app-preview"), fileEl = $("#code-file");
   let onScreen = true;
@@ -140,9 +156,9 @@ gr.Interface(make_quiz, "textbox", "markdown",
   function termLines(p) {
     return [
       { html: `<span class="dim">$</span> python ${p.file}`, wait: 380 },
-      { html: `<span class="spin">◐</span> connecting to free LLM API…`, done: `<span class="ok">✓</span> LLM connected · llama-3.1-8b-instant`, wait: 380 },
-      { html: `<span class="ok">✓</span> Running on public URL: <span class="url">https://${p.slug}.gradio.live</span>`, wait: 420 },
-      { html: `<span class="ok">✓</span> Pushed to github.com/you/${p.slug}`, wait: 200 },
+      { html: `<span class="spin">◐</span> loading helper.py + free API key…`, done: `<span class="ok">✓</span> model ready · llama-3.1-8b-instant`, wait: 380 },
+      { html: `<span class="ok">✓</span> live: <span class="url">https://${p.slug}.gradio.live</span>`, wait: 420 },
+      { html: `<span class="ok">✓</span> pushed: github.com/you/${p.slug}`, wait: 200 },
     ];
   }
 
@@ -157,15 +173,31 @@ gr.Interface(make_quiz, "textbox", "markdown",
     body.innerHTML = "";
     const caret = document.createElement("span");
     caret.className = "caret";
-    body.appendChild(caret);
+    const newLine = () => {
+      const l = document.createElement("span");
+      l.className = "code-line";
+      body.appendChild(l);
+      l.appendChild(caret);
+      return l;
+    };
+    let line = newLine();
     for (const seg of tokenize(src)) {
-      const node = seg.cls ? document.createElement("span") : document.createTextNode("");
-      if (seg.cls) node.className = seg.cls;
-      body.insertBefore(node, caret);
+      let node = null;
       for (const ch of seg.text) {
         await waitVisible();
+        if (ch === "\n") {
+          line = newLine();
+          node = null;
+          await sleep(80);
+          continue;
+        }
+        if (!node) {
+          node = seg.cls ? document.createElement("span") : document.createTextNode("");
+          if (seg.cls) node.className = seg.cls;
+          line.insertBefore(node, caret);
+        }
         node.textContent += ch;
-        await sleep(ch === "\n" ? 80 : 11 + Math.random() * 22);
+        await sleep(11 + Math.random() * 22);
       }
     }
   }
@@ -196,7 +228,7 @@ gr.Interface(make_quiz, "textbox", "markdown",
   async function demo() {
     if (UI.reduceMotion) {
       const p = PROJECTS[0];
-      body.innerHTML = highlighted(p.code);
+      body.innerHTML = highlightedLines(p.code);
       term.innerHTML = termLines(p).map((l) => `<div>${l.done || l.html}</div>`).join("");
       preview.innerHTML = previewHTML(p);
       preview.querySelector(".ap-out").innerHTML = p.app.output;
@@ -222,7 +254,7 @@ gr.Interface(make_quiz, "textbox", "markdown",
     <article class="card card-glow spotlight tier-card" data-reveal style="--d:${i * 120}">
       <span class="tier-icon">${r.icon}</span>
       <div class="tier-num">${r.at}<small>${r.at === 1 ? "friend" : "friends"}</small></div>
-      <h3 class="h-card">${UI.esc(r.title)}</h3>
+      <h3 class="h-card">${UI.esc(r.title).replace(/(\S+-\S+)/g, '<span class="nobr">$1</span>')}</h3>
       <p class="muted">${UI.esc(r.desc)}</p>
     </article>`).join("");
   $("#prize-referrer").textContent = C.topReferrerPrize;
@@ -239,7 +271,7 @@ gr.Interface(make_quiz, "textbox", "markdown",
     const recent = ds.registrations.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     $("#hero-avatars").innerHTML =
       recent.slice(0, 5).map((r) => UI.avatar(r.name)).join("") +
-      (n > 5 ? `<span class="avatar" style="--av:rgba(255,255,255,.12);color:var(--text);font-size:11px">+${n - 5 > 99 ? "99" : n - 5}</span>` : "");
+      (n > 5 ? `<span class="avatar" style="--av:var(--indigo-soft);--av-ink:var(--indigo);font-size:11px">+${n - 5 > 99 ? "99" : n - 5}</span>` : "");
     return recent;
   }
 
@@ -251,14 +283,14 @@ gr.Interface(make_quiz, "textbox", "markdown",
     const mine = (Store.myRegistration() || {}).college;
     const wrap = $("#battle-bars");
     if (!top.length) {
-      wrap.innerHTML = `<div class="empty"><span class="e-icon">🏁</span>No registrations yet. Be the first from your college!</div>`;
+      wrap.innerHTML = `<div class="empty"><span class="e-icon">🏁</span><b>The board is empty so far.</b>Sign up now and your college takes the first spot.</div>`;
       return;
     }
     wrap.innerHTML = top.map(([name, v], i) => `
       <div class="bb-row${name === mine ? " me" : ""}">
         <span class="bb-rank">#${i + 1}</span>
         <div class="bb-main">
-          <span class="bb-name">${UI.esc(name)}${name === mine ? " · your college" : ""}</span>
+          <span class="bb-name">${UI.esc(name)}${name === mine ? " · your campus" : ""}</span>
           <div class="bb-track"><div class="bb-fill" data-w="${((v / max) * 100).toFixed(1)}"></div></div>
         </div>
         <span class="bb-val">${v}</span>
@@ -270,10 +302,10 @@ gr.Interface(make_quiz, "textbox", "markdown",
   }
 
   const VIA = {
-    referral: "via a friend's invite",
-    whatsapp: "via their class WhatsApp group",
+    referral: "with a friend's link",
+    whatsapp: "from a class group",
     email: "via the placement cell",
-    instagram: "from Instagram",
+    instagram: "after the Insta reel",
     linkedin: "from LinkedIn",
     direct: "",
   };
@@ -290,10 +322,10 @@ gr.Interface(make_quiz, "textbox", "markdown",
       if (document.hidden) return schedule();
       const r = pool[i++ % pool.length];
       const via = VIA[r.source] || "";
-      const tag = r.demo ? "demo data" : "just now";
+      const tag = r.demo ? "demo data" : "a moment ago";
       el.innerHTML = UI.avatar(r.name) +
-        `<div><b>${UI.esc(Store.displayName(r.name))}</b> from ${UI.esc(r.college)} registered` +
-        `<span class="when">${via ? via + " · " : ""}${tag}</span></div>`;
+        `<div><b>${UI.esc(Store.displayName(r.name))}</b> from ${UI.esc(r.college)}` +
+        `<span class="when">booked a seat ${via ? via + " " : ""}· ${tag}</span></div>`;
       el.classList.add("show");
       setTimeout(() => el.classList.remove("show"), 4800);
       schedule();

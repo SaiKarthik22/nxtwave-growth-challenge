@@ -3,7 +3,7 @@
 > **NxtWave Growth Intern Challenge: Working Asset ("Build One Thing")**
 > Supports the campaign to get **500 final-year engineers** into the free workshop *"Build Your First AI Project in 60 Minutes"* on a **₹2,000** budget in **7 days**.
 
-**🔗 Live link:** https://saikoushik22.github.io/nxtwave-growth-challenge/  ·  **Code:** https://github.com/saikoushik22/nxtwave-growth-challenge
+**🔗 Live link:** https://saikarthik22.github.io/nxtwave-growth-challenge/  ·  **Code:** https://github.com/SaiKarthik22/nxtwave-growth-challenge
 
 ---
 
@@ -41,7 +41,7 @@ No installs and no build step are needed. Pick any one option:
 3. **Terminal:** `npm start`, then open http://localhost:3000. It uses Node's built-in modules only, so there's no `npm install`.
 
 ```bash
-git clone https://github.com/saikoushik22/nxtwave-growth-challenge.git
+git clone https://github.com/SaiKarthik22/nxtwave-growth-challenge.git
 cd nxtwave-growth-challenge
 npm start
 ```
@@ -71,7 +71,7 @@ By default, data lives in each visitor's browser (localStorage). To collect real
 │   ├── store.js          attribution, A/B variant, events, storage (local or Google Sheets)
 │   ├── seed.js           deterministic 7-day campaign simulation (demo mode)
 │   ├── ui.js             shared nav/footer, reveal, toasts, effects
-│   ├── background.js     neural-network canvas background
+│   ├── background.js     aurora canvas background (drifting colour blobs)
 │   ├── landing.js · register.js · share.js · referral.js
 │   ├── charts.js         dependency-free animated SVG charts
 │   └── dashboard.js

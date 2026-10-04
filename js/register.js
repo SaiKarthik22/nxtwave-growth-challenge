@@ -62,11 +62,11 @@
       const banner = $("#ref-banner");
       if (p) {
         const who = p.kind === "champion" ? `Campus Champion at ${UI.esc(p.college)}` : `from ${UI.esc(p.college)}`;
-        banner.innerHTML = `${UI.avatar(p.name)}<span>🎁 <b>${UI.esc(Store.displayName(p.name))}</b> (${who}) invited you. Register and you both get closer to rewards.</span>`;
+        banner.innerHTML = `${UI.avatar(p.name)}<span>🎁 <b>${UI.esc(Store.displayName(p.name))}</b> (${who}) sent you this invite. Your sign-up counts toward their reward, and you get a link of your own.</span>`;
         const col = $("#f-college");
         if (p.kind === "champion" && !col.value) col.value = p.college;
       } else {
-        banner.innerHTML = `<span>🎁 You were invited with code <b class="mono">${UI.esc(attr.ref)}</b>.</span>`;
+        banner.innerHTML = `<span>🎁 Invite code <b class="mono">${UI.esc(attr.ref)}</b> is applied to this sign-up.</span>`;
       }
       banner.hidden = false;
     });
@@ -79,21 +79,22 @@
     const bad = inputs.filter((i) => !check(i, true));
     if (bad.length) {
       bad[0].focus();
-      UI.toast("Please fix the highlighted fields", "err");
+      UI.toast("A few fields need another look", "err");
       return;
     }
     const data = Object.fromEntries(new FormData(form).entries());
     data.waOptIn = !!form.waOptIn.checked;
     const btn = $("#reg-submit");
+    const btnHTML = btn.innerHTML;
     btn.disabled = true;
-    btn.innerHTML = `<span class="spin-dot"></span> Reserving your seat…`;
+    btn.innerHTML = `<span class="spin-dot"></span> Booking your seat…`;
 
     Store.register(data).then((res) => {
       btn.disabled = false;
-      btn.innerHTML = "Reserve my free seat →";
-      if (res.offline) UI.toast("Saved on this device. The server couldn't be reached.", "err");
+      btn.innerHTML = btnHTML;
+      if (res.offline) UI.toast("We couldn't reach the server, so your seat is saved on this device for now.", "err");
       showSuccess(res.registration, { fresh: !res.existing });
-      if (res.existing) UI.toast("You're already registered. Here's your invite kit.", "ok", "👋");
+      if (res.existing) UI.toast("You signed up earlier. Here's your invite kit again.", "ok", "👋");
       if (window.Landing) Landing.refresh(true);
     });
   });
@@ -128,38 +129,38 @@
     success.innerHTML = `
       <div class="success-top">
         <div class="success-badge">🎉</div>
-        <span class="seat-no">Seat #${UI.fmt(seat)} confirmed</span>
-        <h3 class="h-card">You're in, ${first}!</h3>
-        <p class="muted small">The joining link + reminders go to <b class="text-2">+91 ${UI.esc(String(reg.phone || "").replace(/(\d{5})(\d{5})/, "$1 $2"))}</b>${reg.email ? ` and <b class="text-2">${UI.esc(reg.email)}</b>` : ""}.</p>
+        <span class="seat-no">Seat #${UI.fmt(seat)} is yours</span>
+        <h3 class="h-card">See you on Sunday, ${first}!</h3>
+        <p class="muted small">The Zoom link and reminders are on their way to <b class="text-2">+91 ${UI.esc(String(reg.phone || "").replace(/(\d{5})(\d{5})/, "$1 $2"))}</b>${reg.email ? `, with a copy to <b class="text-2">${UI.esc(reg.email)}</b>` : ""}.</p>
       </div>
 
       <div class="success-block">
-        <span class="label">🎁 Your personal invite link · code <b class="mono c-lime">${UI.esc(reg.code)}</b></span>
-        <div class="copy-field"><code>${UI.esc(link)}</code><button type="button" class="btn btn-ghost btn-sm" data-copy>Copy</button></div>
+        <span class="label">🎁 Your invite link · code <b class="mono c-coral">${UI.esc(reg.code)}</b></span>
+        <div class="copy-field"><code>${UI.esc(link)}</code><button type="button" class="btn btn-ghost btn-sm" data-copy>Copy link</button></div>
       </div>
 
       <div class="success-block">
-        <span class="label">Share with your batch in one tap</span>
+        <span class="label">Drop it in your class groups</span>
         <div class="share-grid">
-          <a class="btn btn-wa" target="_blank" rel="noopener" href="${Share.wa(msg.en)}" data-share="wa-en">WhatsApp · English</a>
-          <a class="btn btn-wa" target="_blank" rel="noopener" href="${Share.wa(msg.te)}" data-share="wa-te">WhatsApp · తెలుగు</a>
-          <a class="btn btn-ghost" target="_blank" rel="noopener" href="${Share.wa(msg.hi)}" data-share="wa-hi">WhatsApp · Hinglish</a>
-          <a class="btn btn-ghost" target="_blank" rel="noopener" href="${Share.linkedin(link)}" data-share="linkedin">LinkedIn</a>
-          ${navigator.share ? `<button type="button" class="btn btn-ghost span-2" data-native>More apps…</button>` : ""}
+          <a class="btn btn-wa" target="_blank" rel="noopener" href="${Share.wa(msg.en)}" data-share="wa-en">WhatsApp in English</a>
+          <a class="btn btn-wa" target="_blank" rel="noopener" href="${Share.wa(msg.te)}" data-share="wa-te">WhatsApp in తెలుగు</a>
+          <a class="btn btn-ghost" target="_blank" rel="noopener" href="${Share.wa(msg.hi)}" data-share="wa-hi">WhatsApp in Hinglish</a>
+          <a class="btn btn-ghost" target="_blank" rel="noopener" href="${Share.linkedin(link)}" data-share="linkedin">Post on LinkedIn</a>
+          ${navigator.share ? `<button type="button" class="btn btn-ghost span-2" data-native>Other apps…</button>` : ""}
         </div>
       </div>
 
       <div class="success-block">
-        <span class="label">Rewards · <b class="c-lime">${refs}</b> ${refs === 1 ? "friend has" : "friends have"} joined${next ? ` · ${next.at - refs} more for ${UI.esc(next.title)}` : " · all unlocked 🏆"}</span>
+        <span class="label">Rewards · <b class="c-coral">${refs}</b> ${refs === 1 ? "friend" : "friends"} signed up so far${next ? ` · ${next.at - refs} to go for ${UI.esc(next.title)}` : " · every reward unlocked 🏆"}</span>
         <div class="tier-track">${tiers}</div>
       </div>
 
       <div class="success-actions">
-        <a class="btn btn-outline btn-sm" target="_blank" rel="noopener" href="${Share.gcal(link)}">📅 Google Calendar</a>
-        <button type="button" class="btn btn-ghost btn-sm" data-ics>⬇ Calendar file (.ics)</button>
-        <a class="btn btn-ghost btn-sm" href="referral.html?code=${encodeURIComponent(reg.code)}">Track referrals →</a>
+        <a class="btn btn-outline btn-sm" target="_blank" rel="noopener" href="${Share.gcal(link)}">📅 Add to Google Calendar</a>
+        <button type="button" class="btn btn-ghost btn-sm" data-ics>⬇ Download .ics</button>
+        <a class="btn btn-ghost btn-sm" href="referral.html?code=${encodeURIComponent(reg.code)}">See my referrals →</a>
       </div>
-      <p class="center"><button type="button" class="tiny muted link-again" data-again>Register another student on this device</button></p>`;
+      <p class="center"><button type="button" class="tiny muted link-again" data-again>Sign up someone else on this device</button></p>`;
 
     form.hidden = true;
     success.hidden = false;
@@ -190,7 +191,8 @@
     const H = (canvas.height = window.innerHeight);
     const ox = card.left + card.width / 2;
     const oy = Math.min(H * 0.6, card.top + 140);
-    const colors = ["#8f7dff", "#2fe3f0", "#c3f75c", "#ffb547", "#ff5d8f", "#ffffff"];
+    // indigo, coral, teal, amber-fill, rose, sky (the Aurora palette tokens)
+    const colors = ["#3d3bd9", "#ff6b4a", "#0b8a7e", "#ffb020", "#cf3466", "#2f7fd0"];
     const parts = Array.from({ length: 170 }, () => ({
       x: ox + (Math.random() - 0.5) * 120,
       y: oy,
