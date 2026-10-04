@@ -1,0 +1,14 @@
+{
+  "name": "nxtwave-growth-challenge",
+  "version": "1.0.0",
+  "description": "BuildAI·60 — a referral-powered growth engine to get 500 final-year engineers into NxtWave's free 'Build Your First AI Project in 60 Minutes' workshop.",
+  "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "check": "node scripts/check.js"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "license": "MIT"
+}
