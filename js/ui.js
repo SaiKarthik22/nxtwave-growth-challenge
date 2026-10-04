@@ -236,7 +236,7 @@ window.UI = (function () {
     if (reduceMotion || from === to) { render(to); return; }
     var start = performance.now();
     (function tick(now) {
-      var t = Math.min(1, (now - start) / dur);
+      var t = Math.min(1, Math.max(0, (now - start) / dur)); // rAF timestamps can precede `start`
       var e = t === 1 ? 1 : 1 - Math.pow(2, -10 * t); // easeOutExpo
       render(from + (to - from) * e);
       if (t < 1) requestAnimationFrame(tick);
