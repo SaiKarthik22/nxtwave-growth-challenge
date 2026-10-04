@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Referral Hub · BuildAI·60</title>
+  <meta name="description" content="Track your referrals, climb the leaderboard, and get your Campus Champion kit for NxtWave's free AI workshop.">
+  <meta name="theme-color" content="#05060b">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%238f7dff'/%3E%3Cstop offset='.6' stop-color='%232fe3f0'/%3E%3Cstop offset='1' stop-color='%23c3f75c'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Ctext x='32' y='42' font-family='Arial' font-weight='900' font-size='26' text-anchor='middle' fill='%2305060b'%3EAI%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/hub.css">
+</head>
+<body data-page="hub" data-demo-flag="true">
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <div class="bg-aurora" aria-hidden="true"><span></span><span></span><span></span></div>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-grain" aria-hidden="true"></div>
+
+  <div id="site-header"></div>
+
+  <main id="main">
+    <!-- ================= HERO ================= -->
+    <section class="hub-hero">
+      <div class="container">
+        <span class="eyebrow" data-reveal>Referral Hub</span>
+        <h1 class="h-display split hub-title">Bring your batch. <span class="grad-text">Climb the board.</span></h1>
+        <p class="lead" data-reveal style="--d:200">Every registrant gets a personal link. Every Campus Champion gets a tracking link, a QR poster and ready-to-send WhatsApp scripts. Every signup is credited live.</p>
+        <div class="hub-stats" data-reveal style="--d:300">
+          <div class="hs"><b id="hs-total">0</b><span>registered</span></div>
+          <div class="hs"><b id="hs-colleges">0</b><span>colleges</span></div>
+          <div class="hs"><b id="hs-champs">0</b><span>active champions</span></div>
+          <div class="hs"><b id="hs-peer">0%</b><span>came via a peer</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= MY STATS ================= -->
+    <section class="section-tight" id="stats">
+      <div class="container">
+        <div class="card stats-card card-glow is-lit" data-reveal>
+          <div class="stats-head">
+            <div>
+              <h2 class="h-card">📈 Your referral stats</h2>
+              <p class="muted small mt-8">Enter the code you got after registering (e.g. <span class="mono c-cyan">RAVI-7K2</span>).</p>
+            </div>
+            <form class="lookup" id="lookup-form">
+              <label class="sr-only" for="lookup-code">Referral code</label>
+              <input class="input mono" id="lookup-code" placeholder="YOUR-CODE" maxlength="12" autocomplete="off" spellcheck="false">
+              <button class="btn btn-primary" type="submit">Check</button>
+            </form>
+          </div>
+          <div id="my-stats" class="my-stats"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= LEADERBOARD ================= -->
+    <section class="section" id="leaderboard">
+      <div class="container">
+        <div class="section-head center">
+          <span class="eyebrow" data-reveal>Leaderboard · live</span>
+          <h2 class="h-section split">Who's bringing the <span class="grad-text">most builders?</span></h2>
+          <p class="lead" data-reveal style="--d:200" id="prize-line"></p>
+        </div>
+        <div class="lb-tabs" data-reveal>
+          <div class="tabs" role="tablist" aria-label="Leaderboards">
+            <button class="tab" role="tab" id="tab-ref" aria-controls="panel-ref" aria-selected="true">🏆 Top referrers</button>
+            <button class="tab" role="tab" id="tab-champ" aria-controls="panel-champ" aria-selected="false" tabindex="-1">🎖️ Campus Champions</button>
+            <button class="tab" role="tab" id="tab-college" aria-controls="panel-college" aria-selected="false" tabindex="-1">🏫 College Battle</button>
+          </div>
+        </div>
+        <div class="tab-panel" id="panel-ref" role="tabpanel" aria-labelledby="tab-ref"></div>
+        <div class="tab-panel" id="panel-champ" role="tabpanel" aria-labelledby="tab-champ" hidden></div>
+        <div class="tab-panel" id="panel-college" role="tabpanel" aria-labelledby="tab-college" hidden></div>
+      </div>
+    </section>
+
+    <!-- ================= CAMPUS CHAMPION ================= -->
+    <section class="section" id="champion">
+      <div class="container champ-grid">
+        <div class="champ-copy">
+          <span class="eyebrow" data-reveal>Campus Champions</span>
+          <h2 class="h-section split">Lead the AI push <span class="grad-text">on your campus.</span></h2>
+          <p class="lead mt-24" data-reveal style="--d:150">Class reps, coding-club leads and GDG/IEEE leads: your batch trusts you more than any ad. Get a kit that takes 2 minutes a day.</p>
+          <ol class="steps" data-reveal style="--d:250">
+            <li><b>Get your kit</b><span>Tracking link, QR poster and 3 ready WhatsApp messages in English + Telugu.</span></li>
+            <li><b>Post 3 waves</b><span>Day 2 intro, Day 5 social proof, Day 7 last call, in your class groups.</span></li>
+            <li><b>Climb the board</b><span>Every signup through your link is credited to you live.</span></li>
+          </ol>
+          <div class="perks" data-reveal style="--d:350">
+            <span class="pill">📜 Champion certificate</span>
+            <span class="pill">💼 LinkedIn recommendation</span>
+            <span class="pill" id="champ-prize">🎁 Voucher pool</span>
+          </div>
+        </div>
+
+        <div class="card card-glow is-lit champ-form-card" data-reveal="zoom" style="--d:100">
+          <form id="champ-form" novalidate>
+            <div class="form-head">
+              <h3 class="h-card">Get my Champion kit</h3>
+              <span class="badge badge-violet">Free</span>
+            </div>
+            <div class="form-grid">
+              <div class="field full">
+                <label for="c-name">Full name</label>
+                <input class="input" id="c-name" name="name" autocomplete="name" placeholder="e.g. Keerthi Reddy" required>
+                <span class="err">Please enter your name</span>
+              </div>
+              <div class="field">
+                <label for="c-phone">WhatsApp number</label>
+                <div class="input-prefix"><span>+91</span><input class="input" id="c-phone" name="phone" type="tel" inputmode="numeric" maxlength="11" placeholder="98765 43210" required></div>
+                <span class="err">Enter a valid 10-digit number</span>
+              </div>
+              <div class="field">
+                <label for="c-email">Email</label>
+                <input class="input" id="c-email" name="email" type="email" autocomplete="email" placeholder="you@college.edu" required>
+                <span class="err">Enter a valid email</span>
+              </div>
+              <div class="field full">
+                <label for="c-college">College</label>
+                <input class="input" id="c-college" name="college" list="c-college-list" autocomplete="off" placeholder="Start typing your college…" required>
+                <datalist id="c-college-list"></datalist>
+                <span class="err">Tell us your college</span>
+              </div>
+              <div class="field full">
+                <label for="c-role">Your role</label>
+                <select class="input" id="c-role" name="role">
+                  <option>Class Representative</option>
+                  <option>Coding Club Lead</option>
+                  <option>GDG / IEEE Lead</option>
+                  <option>Placement Coordinator</option>
+                  <option>Student Volunteer</option>
+                </select>
+              </div>
+            </div>
+            <button class="btn btn-primary btn-lg btn-block mt-24" type="submit">Generate my kit →</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="container">
+        <div id="champ-kit" class="champ-kit" hidden></div>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="js/config.js"></script>
+  <script src="js/seed.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/background.js"></script>
+  <script src="js/share.js"></script>
+  <!-- Optional: QR code for the champion poster. If offline, the poster falls back to a printed link. -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="js/referral.js"></script>
+</body>
+</html>
