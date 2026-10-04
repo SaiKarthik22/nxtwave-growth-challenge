@@ -2,44 +2,6 @@
    BuildAI·60 — Reusable components
    ========================================================= */
 
-/* ---------- Reviewer strip ---------- */
-.review-strip {
-  position: relative;
-  z-index: 51;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  flex-wrap: wrap;
-  padding: 8px 48px;
-  font-size: 13px;
-  color: var(--text-2);
-  text-align: center;
-  background: linear-gradient(90deg, rgba(124, 107, 255, 0.2), rgba(47, 227, 240, 0.12) 60%, rgba(195, 247, 92, 0.1));
-  border-bottom: 1px solid var(--border);
-}
-.review-strip strong { color: var(--text); font-weight: 700; }
-.review-strip a {
-  color: var(--text);
-  font-weight: 600;
-  border-bottom: 1px dashed rgba(255, 255, 255, 0.35);
-  transition: color 0.2s, border-color 0.2s;
-}
-.review-strip a:hover { color: var(--cyan); border-color: var(--cyan); }
-.review-strip .strip-close {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  translate: 0 -50%;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  color: var(--muted);
-}
-.review-strip .strip-close:hover { background: var(--surface-3); color: var(--text); }
-
 /* ---------- Nav ---------- */
 .site-nav {
   position: sticky;
@@ -723,7 +685,7 @@ select.input option { background: #0d0f1b; color: var(--text); }
   position: fixed;
   z-index: 70;
   right: 16px;
-  top: calc(var(--nav-h) + 52px);
+  top: calc(var(--nav-h) + 16px);
   padding: 5px 10px;
   border-radius: 999px;
   font-family: var(--font-mono);
@@ -738,6 +700,7 @@ select.input option { background: #0d0f1b; color: var(--text); }
   cursor: help;
 }
 @media (max-width: 680px) { .demo-flag { display: none; } }
+.nav-open .demo-flag { display: none; }
 
 .empty {
   display: grid;

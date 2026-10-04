@@ -44,40 +44,23 @@ window.UI = (function () {
     return new Date(d).toLocaleString("en-IN", Object.assign({ timeZone: "Asia/Kolkata" }, opts || {}));
   }
 
-  function store(key, val) {
-    try {
-      if (val === undefined) return window.sessionStorage.getItem(key);
-      window.sessionStorage.setItem(key, val);
-    } catch (e) { return null; }
-  }
-
   /* ---------- header / footer ---------- */
   var NAV = [
     { href: "index.html", label: "Workshop", page: "home" },
     { href: "referral.html", label: "Referral Hub", page: "hub" },
     { href: "dashboard.html", label: "Command Center", page: "dashboard" },
-    { href: "plan.html", label: "Growth Plan", page: "plan" },
-    { href: "notes.html", label: "How I Thought", page: "notes" },
   ];
 
   function renderHeader() {
     var slot = $("#site-header");
     if (!slot) return;
     var page = document.body.getAttribute("data-page");
-    var strip = store("b60.strip") === "hidden" ? "" :
-      '<div class="review-strip" role="note">' +
-        '<span>🧪 <strong>NxtWave Growth Challenge submission</strong> · for reviewers:</span>' +
-        '<a href="plan.html">Growth Plan</a>' +
-        '<a href="dashboard.html">Command Center</a>' +
-        '<a href="notes.html">How I Thought</a>' +
-        '<button class="strip-close" type="button" aria-label="Dismiss reviewer bar">✕</button>' +
-      "</div>";
     var links = NAV.map(function (l) {
       var active = l.page === page;
       return '<a href="' + l.href + '"' + (active ? ' class="active" aria-current="page"' : "") + ">" + l.label + "</a>";
     }).join("");
     slot.outerHTML =
-      '<a class="skip-link" href="#main">Skip to content</a>' + strip +
+      '<a class="skip-link" href="#main">Skip to content</a>' +
       '<header class="site-nav" id="site-nav">' +
         '<div class="container nav-inner">' +
           '<a href="index.html" class="logo" aria-label="BuildAI·60 home">' +
@@ -91,13 +74,6 @@ window.UI = (function () {
           "</div>" +
         "</div>" +
       "</header>";
-
-    var close = $(".strip-close");
-    if (close) close.addEventListener("click", function () {
-      store("b60.strip", "hidden");
-      var s = $(".review-strip");
-      if (s) s.remove();
-    });
 
     var nav = $("#site-nav");
     var toggle = $(".nav-toggle");
@@ -136,10 +112,10 @@ window.UI = (function () {
               '<li><a href="referral.html">Referral Hub &amp; leaderboard</a></li>' +
               '<li><a href="referral.html#champion">Become a Campus Champion</a></li>' +
             "</ul></div>" +
-            "<div><h4>For reviewers</h4><ul>" +
-              '<li><a href="plan.html">Growth Plan (5 slides)</a></li>' +
+            "<div><h4>For the growth team</h4><ul>" +
               '<li><a href="dashboard.html">Growth Command Center</a></li>' +
-              '<li><a href="notes.html">How I Thought + AI notes</a></li>' +
+              '<li><a href="referral.html#leaderboard">Live leaderboards</a></li>' +
+              '<li><a href="referral.html#champion">Campus Champion kit</a></li>' +
               (window.CONFIG && CONFIG.repoUrl ? '<li><a href="' + esc(CONFIG.repoUrl) + '" target="_blank" rel="noopener">Source code on GitHub ↗</a></li>' : "") +
             "</ul></div>" +
           "</div>" +

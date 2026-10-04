@@ -33,9 +33,9 @@ window.CONFIG = {
   backendUrl: "",
 
   // Optional: your GitHub repo URL. It shows a "Source code" link in the footer.
-  repoUrl: "",
+  repoUrl: "https://github.com/saikoushik22/nxtwave-growth-challenge",
 
-  // Channel plan used by the dashboard's "plan vs actual" comparison (see plan.html slide 3).
+  // Channel targets used by the Command Center's "vs plan" comparison (they add up to 570, a 14% buffer over 500).
   channels: {
     whatsapp:  { label: "Campus Champions · WhatsApp groups", short: "Champions · WhatsApp", color: "#3ee6a0", plan: 300, conv: 0.21 },
     referral:  { label: "Referral loop",                       short: "Referrals",            color: "#a99bff", plan: 120, conv: 0.31 },

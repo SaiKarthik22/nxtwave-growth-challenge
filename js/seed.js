@@ -5,7 +5,7 @@
    ran: ~571 registrations, 40 Campus Champions, per-channel visits,
    form starts and shares, plus an A/B headline split.
    It is seeded, so every visitor sees the same "campaign".
-   Daily numbers follow the plan on plan.html (slide 3) with
+   Daily numbers follow the channel targets in config.js with
    realistic over/under-delivery per channel.
    ========================================================= */
 window.Seed = (function () {

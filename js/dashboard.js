@@ -161,7 +161,7 @@
         <td>${plan ? vsBadge(s.regs / plan) : '<span class="dim">–</span>'}</td>
       </tr>`;
     }).join("");
-    $("#plan-note").textContent = `Plan pro-rated to Day ${a.upTo} of ${D} (see Growth Plan, slide 3)`;
+    $("#plan-note").textContent = `Channel targets pro-rated to Day ${a.upTo} of ${D}`;
     $("#channel-table").innerHTML = `
       <thead><tr><th>Channel</th><th class="num">Visits</th><th class="num">Regs</th><th class="num">Conv.</th><th class="num">Plan</th><th>vs plan</th></tr></thead>
       <tbody>${body}
@@ -318,7 +318,7 @@
         const ch = CH[chKey(r.source)];
         const by = r.referredBy ? a.people[r.referredBy] : null;
         return `<tr>
-          <td class="muted mono small">D${r.day} · ${UI.dateFmt(r.createdAt, { hour: "numeric", minute: "2-digit", hour12: true })}${r.live ? ' <span class="badge badge-lime">you</span>' : ""}</td>
+          <td class="muted mono small">D${r.day} · ${UI.dateFmt(r.createdAt, { hour: "numeric", minute: "2-digit", hour12: true })}${r.live ? ' <span class="badge badge-lime">live</span>' : ""}</td>
           <td><div class="who">${UI.avatar(r.name)}<span>${esc(Store.displayName(r.name))}</span></div></td>
           <td class="muted">${esc(r.college)}</td>
           <td><span class="ch-dot" style="background:${ch.color}"></span>${esc(ch.short)}</td>

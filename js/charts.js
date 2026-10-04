@@ -99,7 +99,7 @@ window.Charts = (function () {
     // x labels
     o.labels.forEach(function (l, i) {
       s.push('<text x="' + x(i) + '" y="' + (H - 20) + '" class="axis x-main" text-anchor="middle">D' + (i + 1) + "</text>");
-      s.push('<text x="' + x(i) + '" y="' + (H - 6) + '" class="axis x-sub" text-anchor="middle">' + esc(l) + "</text>");
+      if (slot >= 64) s.push('<text x="' + x(i) + '" y="' + (H - 6) + '" class="axis x-sub" text-anchor="middle">' + esc(l) + "</text>");
     });
 
     // hover columns

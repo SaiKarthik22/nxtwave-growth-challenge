@@ -16,9 +16,10 @@ THE CHALLENGE
 NxtWave is launching a FREE online workshop: "Build Your First AI Project in 60 Minutes".
 Goal: get 500 final-year engineering students to register.
 Constraints: Rs 2,000 budget, 7-day campaign, any AI tools. It's a simulation.
-They want: (1) a growth plan in 5 slides max, (2) ONE working asset, live link,
-(3) AI + learning notes, (4) a 3-minute video. They warned "everyone will build a
-landing page", and the more complex and effective the asset, the better.
+This prompt builds ONLY task 3, "Build One Thing": one working asset with a live link
+that supports my plan. (The growth plan slides, AI notes and video are separate
+submissions, so do NOT build them here.) They warned "everyone will build a landing
+page", and the more complex and effective the asset, the better.
 
 MY STRATEGY (build around this)
 - Target: final-year B.Tech students (2027 batch) at Tier-2/3 colleges in AP & Telangana,
@@ -28,7 +29,7 @@ MY STRATEGY (build around this)
   (3) placement cells and coding clubs, (4) Instagram + LinkedIn with a Rs 600 boost.
 - Budget: Rs 1,000 champion rewards, Rs 600 Instagram boost, Rs 400 referral prizes, Rs 0 tools.
 
-THE ASSET: "BuildAI·60", a referral-powered growth engine (not just a landing page)
+THE ASSET: "BuildAI·60", a referral code + tracker system (the landing page is just its front door)
 1. Landing page: A/B-tested headline, live code-typing demo, countdown, live seat counter,
    projects, 60-min agenda, FAQ, smart 6-field registration form.
 2. Referral engine: UTM + ?ref= attribution, unique referral code per registrant,
@@ -37,10 +38,9 @@ THE ASSET: "BuildAI·60", a referral-powered growth engine (not just a landing p
 3. Referral Hub: stats lookup by code, leaderboards (referrers, champions, college battle),
    and a Campus Champion kit generator: tracking link, QR poster (PNG), 3-wave WhatsApp scripts.
 4. Growth Command Center dashboard: KPIs vs goal, daily registrations vs target pace,
-   channel performance vs plan, funnel drop-offs, A/B test with significance, rule-based
+   channel performance vs targets, funnel drop-offs, A/B test with significance, rule-based
    "what the data says -> what we do next" insights, day-by-day replay slider, CSV export.
-5. Growth plan as a 5-slide web deck (prints to PDF) + a "How I Thought" notes page.
-6. Optional free backend: Google Sheets + Apps Script, falling back to localStorage.
+5. Optional free backend: Google Sheets + Apps Script, falling back to localStorage.
    Demo mode blends a seeded 7-day simulation so the prototype feels alive (clearly labeled).
 
 TECH RULES (non-negotiable)
@@ -87,7 +87,7 @@ border and spotlight, form fields, chips, tabs, accordion, toast, tables, code w
 footer) and css/animations.css (keyframes, data-reveal scroll animations with stagger,
 reduced-motion overrides). Build js/background.js: a performant neural-network canvas
 with signal pulses and mouse interaction that pauses when the tab is hidden. Build js/ui.js:
-inject the shared reviewer strip, nav and footer; reveal observer, count-up, toast,
+inject the shared nav and footer; reveal observer, count-up, toast,
 copy-to-clipboard, spotlight and magnetic effects, and number/date formatters.
 ```
 
@@ -99,7 +99,7 @@ assignment, event tracking, registrations and champions in localStorage with an 
 Google Apps Script remote adapter, dedupe by phone/email, referral code generation, and
 merged demo+live datasets) and js/seed.js (a deterministic, seeded 7-day campaign
 simulation: ~571 registrations across 5 channels, 40 champions, realistic colleges in
-AP/TS, A/B split, visits/form-start/share events, consistent with the growth plan math).
+AP/TS, A/B split, visits/form-start/share events, consistent with the channel targets).
 ```
 
 **Module 3: Landing page**
@@ -137,25 +137,15 @@ English + Telugu, each with copy / send-on-WhatsApp buttons.
 Module 6: dashboard.html + css/dashboard.css + js/charts.js (dependency-free animated SVG
 charts: bar + cumulative line + target pace, horizontal bars, donut, funnel, progress ring,
 with tooltips) + js/dashboard.js. Include a Demo/Live toggle, a day 1-7 replay slider with
-play button, 6 KPIs, a channel table vs plan, a funnel, an A/B test with a z-test,
+play button, 6 KPIs, a channel table vs targets, a funnel, an A/B test with a z-test,
 top colleges/champions/referrers, rule-based insights with recommended actions, recent
 registrations and CSV export.
 ```
 
-**Module 7: Growth plan deck and notes**
+**Module 7: Backend, deploy and polish**
 ```text
-Module 7: plan.html (5-slide web deck: student, channels, 500 math + budget, 7-day
-execution + kill/scale rules, the asset + risks) with keyboard/swipe navigation and print
-CSS so each slide becomes one PDF page. notes.html: "How I Thought" — the 3 required
-questions, AI + learning notes (asked -> AI suggested -> what I changed), and AI
-suggestions I rejected and why.
-```
-
-**Module 8: Backend, deploy and polish**
-```text
-Module 8: backend/google-apps-script.gs (doPost register/champion/event with LockService
+Module 7: backend/google-apps-script.gs (doPost register/champion/event with LockService
 and dedupe, doGet stats with sanitized public data, formula-injection protection),
-docs/BACKEND_SETUP.md, docs/DEPLOY.md (GitHub + GitHub Pages + Netlify Drop),
-docs/VIDEO_SCRIPT.md (3-minute script), and a final QA pass: run npm run check,
-test mobile widths, and check console errors.
+docs/BACKEND_SETUP.md, docs/DEPLOY.md (GitHub + GitHub Pages + Netlify Drop), and a
+final QA pass: run npm run check, test mobile widths, and check console errors.
 ```
