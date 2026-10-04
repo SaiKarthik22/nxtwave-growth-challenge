@@ -56,7 +56,7 @@
 
   /* ---------- referral banner + champion college prefill ---------- */
   const attr = Store.attribution();
-  if (attr.ref && attr.ref !== Store.myCode()) {
+  if (attr.ref) {
     Store.getDataset({ upToDay: C.demoDay }).then((ds) => {
       const p = Store.findByCode(ds, attr.ref);
       const banner = $("#ref-banner");

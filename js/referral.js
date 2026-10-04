@@ -182,6 +182,11 @@
       return;
     }
     const p = Store.findByCode(DS, code);
+    if (!p && X.counts[code]) {
+      const k = X.counts[code];
+      box.innerHTML = emptyState("🔗", `<b>${k}</b> ${k === 1 ? "friend has" : "friends have"} joined with code <b class="mono">${esc(code)}</b> in this browser. The code's owner registered on another device${Store.isRemote() ? "" : ", and demo data stays in each browser until the shared Google Sheets backend is connected"}.`);
+      return;
+    }
     if (!p) {
       box.innerHTML = emptyState("🔍", `No one with code <b class="mono">${esc(code)}</b> yet. Check the spelling. Codes look like <span class="mono">NAME-X7K</span>.`);
       return;
@@ -220,7 +225,7 @@
             <p>${esc(p.college)} · code <span class="mono c-lime">${esc(p.code)}</span></p>
           </div></div>
           <div class="ms-nums">
-            <div class="ms-num"><b>${n}</b><span>${isChamp ? "signups via you" : "friends joined"}</span></div>
+            <div class="ms-num"><b>${n}</b><span>${isChamp ? (n === 1 ? "signup" : "signups") + " via you" : n === 1 ? "friend joined" : "friends joined"}</span></div>
             <div class="ms-num"><b>${rank ? "#" + rank : "–"}</b><span>rank of ${list.length || 0}</span></div>
             <div class="ms-num"><b>${bigNum}</b><span>${esc(bigLbl)}</span></div>
           </div>

@@ -209,8 +209,11 @@ window.Store = (function () {
 
   function register(input) {
     var p = normalizePerson(input);
-    var me = myCode();
-    var ref = attribution.ref && attribution.ref !== me ? attribution.ref : "";
+    // block self-referral by person (same phone or email as the code's owner), not by device,
+    // so a friend registering on a shared phone or laptop is still credited
+    var owner = attribution.ref ? read(K.regs, []).concat(read(K.champs, [])).find(function (r) { return r.code === attribution.ref; }) : null;
+    var selfRef = !!(owner && (owner.phone === p.phone || owner.email === p.email));
+    var ref = selfRef ? "" : attribution.ref;
     var existing = read(K.regs, []).find(function (r) { return r.phone === p.phone || r.email === p.email; });
     if (existing && !isRemote()) {
       write(K.me, existing.code);
@@ -222,8 +225,8 @@ window.Store = (function () {
       gradYear: Number(input.gradYear) || "",
       code: makeCode(p.name, takenCodes()),
       referredBy: ref,
-      source: ref && !attribution.source ? "referral" : attribution.source || "direct",
-      medium: attribution.medium || "",
+      source: selfRef ? "direct" : ref && !attribution.source ? "referral" : attribution.source || "direct",
+      medium: selfRef ? "" : attribution.medium || "",
       campaign: attribution.campaign || "",
       variant: variant,
       role: "student",
